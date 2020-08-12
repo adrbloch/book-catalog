@@ -1,4 +1,4 @@
-package io.github.adrbloch.bookcatalog.bookcatalog;
+package io.github.adrbloch.bookcatalog;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

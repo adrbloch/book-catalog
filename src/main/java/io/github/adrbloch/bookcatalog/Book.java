@@ -1,4 +1,4 @@
-package io.github.adrbloch.bookcatalog.bookcatalog;
+package io.github.adrbloch.bookcatalog;
 
 import javax.persistence.*;
 
@@ -13,6 +13,7 @@ public class Book {
     private String title;
     private String description;
     private int rating;
+
 
     public Book() {
     }
@@ -56,4 +57,6 @@ public class Book {
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+
 }

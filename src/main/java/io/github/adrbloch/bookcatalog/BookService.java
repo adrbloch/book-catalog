@@ -1,4 +1,4 @@
-package io.github.adrbloch.bookcatalog.bookcatalog;
+package io.github.adrbloch.bookcatalog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ public class BookService {
         Book book = new Book();
         book.setAuthor("jan kowalski");
         book.setTitle("wladca pierscieni");
-        book.setDescription("przygody druzyny peirscienia");
+        book.setDescription("przygody druzyny pierscienia");
         book.setRating(9);
         bookRepository.save(book);
     }
