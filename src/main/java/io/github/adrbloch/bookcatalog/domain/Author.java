@@ -17,6 +17,12 @@ public class Author {
     public Author() {
     }
 
+    public Author(String name, Set<Book> bookSet) {
+        this.id = id;
+        this.name = name;
+        this.bookSet = bookSet;
+    }
+
     public Set<Book> getBookSet() {
         return bookSet;
     }

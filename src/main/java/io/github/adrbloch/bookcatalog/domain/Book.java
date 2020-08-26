@@ -18,8 +18,15 @@ public class Book {
     private Publisher publisher;
     private long publicationYear;
 
-
     public Book() {
+    }
+
+    public Book(Author author, String title, Publisher publisher, long publicationYear) {
+        this.id = id;
+        this.author = author;
+        this.title = title;
+        this.publisher = publisher;
+        this.publicationYear = publicationYear;
     }
 
     public Long getId() {
