@@ -2,6 +2,7 @@ package io.github.adrbloch.bookcatalog.controller;
 
 
 import io.github.adrbloch.bookcatalog.domain.Book;
+import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.BookRepository;
 import io.github.adrbloch.bookcatalog.service.BookService;
 import org.slf4j.Logger;
@@ -18,12 +19,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/books")
-public class BookController {
+public class BookRestController {
 
     private BookService bookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookRestController(BookService bookService) {
         this.bookService = bookService;
     }
 
@@ -34,12 +35,14 @@ public class BookController {
 
     @GetMapping("/{id}")
     ResponseEntity<Book> viewBook(@PathVariable Long id) {
-        return new ResponseEntity<>(bookService.getBook(id), HttpStatus.OK);
+            return new ResponseEntity<>(bookService.getBook(id), HttpStatus.OK);
+
     }
 
     @PostMapping
     ResponseEntity<Book> createBook(@RequestBody Book newBook) {
-        return new ResponseEntity<>(bookService.createBook(newBook), HttpStatus.OK);
+        Book book = bookService.createBook(newBook);
+        return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

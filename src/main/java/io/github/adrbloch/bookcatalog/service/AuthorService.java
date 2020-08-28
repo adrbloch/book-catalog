@@ -1,6 +1,7 @@
 package io.github.adrbloch.bookcatalog.service;
 
 import io.github.adrbloch.bookcatalog.domain.Author;
+import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.AuthorRepository;
 import org.slf4j.Logger;
@@ -24,8 +25,7 @@ public class AuthorService {
 
     public Author getAuthor(Long id) throws ResourceNotFoundException {
         logger.info("Get author with id: {}", id);
-        return authorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Author with id {" +id+ "} not found!"));
+        return checkIfExistsAndReturnAuthor(id);
     }
 
     public List<Author> getAllAuthors() {
@@ -41,19 +41,25 @@ public class AuthorService {
     public Author updateAuthor(Author author, Long id) throws ResourceNotFoundException {
         logger.info("Update author with id: {}", id);
 
-        Author authorToUpdate = getAuthor(id);
+        Author authorToUpdate = checkIfExistsAndReturnAuthor(id);
         authorToUpdate.setName(author.getName());
         return authorRepository.save(authorToUpdate);
     }
 
     public Author deleteAuthor(Long id) throws ResourceNotFoundException {
         logger.warn("Delete author with id: {}", id);
-        if (authorRepository.existsById(id)) {
-            authorRepository.deleteById(id);
-            return authorRepository.findById( id ).get();
-        }
-        else throw new ResourceNotFoundException("Author with id {" +id+ "} not found!");
+        Author authorToDelete = checkIfExistsAndReturnAuthor(id);
+        authorRepository.deleteById(id);
+        return authorToDelete;
     }
+
+    private Author checkIfExistsAndReturnAuthor(Long id) {
+        if (authorRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Author with id {" + id + "} not found!");
+        } else return authorRepository.findById(id).get();
+    }
+
+
 
 
 }

@@ -1,5 +1,6 @@
 package io.github.adrbloch.bookcatalog.service;
 
+import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.domain.Publisher;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.PublisherRepository;
@@ -24,8 +25,7 @@ public class PublisherService {
 
     public Publisher getPublisher(Long id) throws ResourceNotFoundException {
         logger.info("Get publisher with id: {}", id);
-        return publisherRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Publisher with id {" +id+ "} not found!"));
+       return checkIfExistsAndReturnPublisher(id);
     }
 
     public List<Publisher> getAllPublishers() {
@@ -41,19 +41,25 @@ public class PublisherService {
     public Publisher updatePublisher(Publisher publisher, Long id) throws ResourceNotFoundException {
         logger.info("Update publisher with id: {}", id);
 
-        Publisher publisherToUpdate = getPublisher(id);
+        Publisher publisherToUpdate = checkIfExistsAndReturnPublisher(id);
+        publisherToUpdate.setName(publisher.getName());
         publisherToUpdate.setCity(publisher.getCity());
         return publisherRepository.save(publisherToUpdate);
     }
 
     public Publisher deletePublisher(Long id) throws ResourceNotFoundException {
         logger.warn("Delete publisher with id: {}", id);
-        if (publisherRepository.existsById(id)) {
-            publisherRepository.deleteById(id);
-            return publisherRepository.findById( id ).get();
-        }
-        else throw new ResourceNotFoundException("Publisher with id {" +id+ "} not found!");
+        Publisher publisherToDelete = checkIfExistsAndReturnPublisher(id);
+        publisherRepository.deleteById(id);
+        return publisherToDelete;
     }
+
+    private Publisher checkIfExistsAndReturnPublisher(Long id) {
+        if (publisherRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Publisher with id {" + id + "} not found!");
+        } else return publisherRepository.findById(id).get();
+    }
+
 
 }
 

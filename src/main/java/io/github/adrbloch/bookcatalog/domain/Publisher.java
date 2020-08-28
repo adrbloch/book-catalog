@@ -1,6 +1,9 @@
 package io.github.adrbloch.bookcatalog.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -11,34 +14,22 @@ public class Publisher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String city;
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Book> bookSet;
 
     public Publisher() {
     }
 
-    public Publisher(String name, Set<Book> bookSet, String city) {
-        this.id = id;
+    public Publisher(String name, String city) {
         this.name = name;
-        this.bookSet = bookSet;
         this.city = city;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
+    public Publisher(String name, String city, Set<Book> bookSet) {
+        this.name = name;
         this.city = city;
-    }
-
-    private String city;
-
-    public Set<Book> getBookSet() {
-        return bookSet;
-    }
-
-    public void setBookSet(Set<Book> bookSet) {
         this.bookSet = bookSet;
     }
 
@@ -56,5 +47,21 @@ public class Publisher {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Set<Book> getBookSet() {
+        return bookSet;
+    }
+
+    public void setBookSet(Set<Book> bookSet) {
+        this.bookSet = bookSet;
     }
 }

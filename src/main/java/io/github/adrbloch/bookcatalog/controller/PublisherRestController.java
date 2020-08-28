@@ -14,12 +14,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/publishers")
-public class PublisherController {
+public class PublisherRestController {
 
     private PublisherService publisherService;
 
     @Autowired
-    public PublisherController(PublisherService publisherService) {
+    public PublisherRestController(PublisherService publisherService) {
         this.publisherService = publisherService;
     }
 
@@ -35,7 +35,7 @@ public class PublisherController {
 
     @PostMapping
     ResponseEntity<Publisher> createPublisher(@RequestBody Publisher newPublisher) {
-        return new ResponseEntity<>(publisherService.createPublisher(newPublisher), HttpStatus.OK);
+        return new ResponseEntity<>(publisherService.createPublisher(newPublisher), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

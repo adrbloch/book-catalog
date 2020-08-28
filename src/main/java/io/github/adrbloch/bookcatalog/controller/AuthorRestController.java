@@ -13,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
-public class AuthorController {
+public class AuthorRestController {
 
     private AuthorService authorService;
 
     @Autowired
-    public AuthorController(AuthorService authorService) {
+    public AuthorRestController(AuthorService authorService) {
         this.authorService = authorService;
     }
 
@@ -34,7 +34,7 @@ public class AuthorController {
 
     @PostMapping
     ResponseEntity<Author> createAuthor(@RequestBody Author newAuthor) {
-        return new ResponseEntity<>(authorService.createAuthor(newAuthor), HttpStatus.OK);
+        return new ResponseEntity<>(authorService.createAuthor(newAuthor), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

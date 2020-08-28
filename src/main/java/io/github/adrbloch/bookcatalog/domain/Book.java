@@ -3,7 +3,7 @@ package io.github.adrbloch.bookcatalog.domain;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "book")
+@Table(name = "book")
 public class Book {
 
     @Id
@@ -22,7 +22,6 @@ public class Book {
     }
 
     public Book(Author author, String title, Publisher publisher, long publicationYear) {
-        this.id = id;
         this.author = author;
         this.title = title;
         this.publisher = publisher;
