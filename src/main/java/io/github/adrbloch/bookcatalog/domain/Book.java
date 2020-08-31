@@ -1,6 +1,7 @@
 package io.github.adrbloch.bookcatalog.domain;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "book")
@@ -67,4 +68,6 @@ public class Book {
     public void setPublicationYear(long publicationYear) {
         this.publicationYear = publicationYear;
     }
+
+
 }

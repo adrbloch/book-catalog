@@ -1,7 +1,7 @@
 package io.github.adrbloch.bookcatalog.service;
 
 import io.github.adrbloch.bookcatalog.domain.Author;
-import io.github.adrbloch.bookcatalog.domain.Book;
+import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.AuthorRepository;
 import org.slf4j.Logger;
@@ -33,9 +33,12 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public Author createAuthor(Author author) {
+    public Author createAuthor(Author author) throws ResourceAlreadyExistsException{
         logger.info("Create author...");
-        return authorRepository.save(author);
+        if (authorRepository.existsByName(author.getName()))
+            throw new ResourceAlreadyExistsException("Author already exists!");
+        else
+            return authorRepository.save(author);
     }
 
     public Author updateAuthor(Author author, Long id) throws ResourceNotFoundException {

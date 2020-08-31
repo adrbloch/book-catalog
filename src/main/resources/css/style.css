@@ -1,0 +1,19 @@
+.jumbotron {
+    background-image: url("../img/books.jpg");
+    background-size: cover;
+}
+
+.text-large {
+    font-size: 350%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.text-shadow {
+    text-shadow: -2px 0 5px whitesmoke,
+    0 3px 5px whitesmoke,
+    3px 0 5px whitesmoke,
+    0 -5px 5px whitesmoke;
+}

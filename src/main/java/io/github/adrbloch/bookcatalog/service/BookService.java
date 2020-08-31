@@ -1,12 +1,9 @@
 package io.github.adrbloch.bookcatalog.service;
 
-import io.github.adrbloch.bookcatalog.domain.Author;
 import io.github.adrbloch.bookcatalog.domain.Book;
-import io.github.adrbloch.bookcatalog.domain.Publisher;
+import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
-import io.github.adrbloch.bookcatalog.repository.AuthorRepository;
 import io.github.adrbloch.bookcatalog.repository.BookRepository;
-import io.github.adrbloch.bookcatalog.repository.PublisherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +34,12 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book createBook(Book book) {
+    public Book createBook(Book book) throws ResourceAlreadyExistsException{
         logger.info("Create book...");
-        return bookRepository.save(book);
+        if (bookRepository.existsByAuthorNameAndTitle(book.getAuthor().getName(), book.getTitle()))
+            throw new ResourceAlreadyExistsException("Book already exists!");
+        else
+            return bookRepository.save(book);
 
     }
 
@@ -68,9 +68,6 @@ public class BookService {
             throw new ResourceNotFoundException("Book with id {" + id + "} not found!");
         } else return bookRepository.findById(id).get();
     }
-
-
-
 
 
 }

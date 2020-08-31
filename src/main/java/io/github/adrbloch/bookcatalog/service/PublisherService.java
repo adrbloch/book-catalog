@@ -1,7 +1,7 @@
 package io.github.adrbloch.bookcatalog.service;
 
-import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.domain.Publisher;
+import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.PublisherRepository;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class PublisherService {
 
     public Publisher getPublisher(Long id) throws ResourceNotFoundException {
         logger.info("Get publisher with id: {}", id);
-       return checkIfExistsAndReturnPublisher(id);
+        return checkIfExistsAndReturnPublisher(id);
     }
 
     public List<Publisher> getAllPublishers() {
@@ -33,9 +33,12 @@ public class PublisherService {
         return publisherRepository.findAll();
     }
 
-    public Publisher createPublisher(Publisher publisher) {
+    public Publisher createPublisher(Publisher publisher) throws ResourceAlreadyExistsException{
         logger.info("Create publisher...");
-        return publisherRepository.save(publisher);
+        if (publisherRepository.existsByNameAndCity(publisher.getName(), publisher.getCity()))
+            throw new ResourceAlreadyExistsException("Publisher already exists!");
+        else
+            return publisherRepository.save(publisher);
     }
 
     public Publisher updatePublisher(Publisher publisher, Long id) throws ResourceNotFoundException {

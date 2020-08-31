@@ -56,9 +56,6 @@ public class DataLoader implements CommandLineRunner {
         bookService.createBook(book4);
         bookService.createBook(book5);
 
-
-
-
     }
 
 }
