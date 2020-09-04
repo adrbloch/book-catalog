@@ -1,14 +1,8 @@
 .jumbotron {
     background-image: url("../img/books.jpg");
     background-size: cover;
-}
+    letter-spacing: 10px;
 
-.text-large {
-    font-size: 350%;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
 }
 
 .text-shadow {
@@ -16,4 +10,17 @@ body {
     0 3px 5px whitesmoke,
     3px 0 5px whitesmoke,
     0 -5px 5px whitesmoke;
+}
+
+.medium-txt {
+    font-size: 1.2rem;
+}
+
+.huge-txt {
+    font-size: 1.5rem;
+
+}
+
+.table-lg-padd>tbody>tr>td, .table-lg-padd>tbody>tr>th, .table-lg-padd>tfoot>tr>td, .table-lg-padd>tfoot>tr>th, .table-lg-padd>thead>tr>td, .table-lg-padd>thead>tr>th {
+    padding: 20px;
 }

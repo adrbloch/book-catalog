@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--    External css-->
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+
+    <!--    Icons-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <!--    Bootrstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <title>Add book</title>
+
+</head>
+<body>
+<div class="jumbotron text-center text-shadow">
+    <h1 class="display-2 font-weight-bold">Book catalog</h1>
+    <h3>Browse your favourite books!</h3>
+</div>
+
+
+<div class="container border border-primary px-0  my-5 pt-3">
+    <form class="form-horizontal">
+        <h1 class="text-center mt-3"><strong>Create a new book</strong></h1>
+
+        <div class="form-group row m-5">
+            <label for="inputAuthor" class="col-sm-2 col-form-label-lg font-weight-bold">Author:</label>
+            <div class="col-sm-10 mt-1">
+                <input type="text" class="form-control form-control-lg" id="inputAuthor" placeholder="Enter author">
+            </div>
+        </div>
+        <div class="form-group row m-5">
+            <label for="inputTitle" class="col-sm-2 col-form-label-lg font-weight-bold">Title:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-lg" id="inputTitle"
+                       placeholder="Enter title">
+            </div>
+        </div>
+        <div class="form-group row m-5">
+            <label for="inputPublisher" class="col-sm-2 col-form-label-lg font-weight-bold">Publisher:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-lg mt-1 mb-4" id="inputPublisher"
+                       placeholder="Enter publisher name">
+                <input type="text" class="form-control form-control-lg mt-3"
+                       placeholder="Enter publisher city">
+            </div>
+
+        </div>
+        <div class="form-group row m-5">
+            <label for="inputYear" class="col-sm-2 col-form-label-lg font-weight-bold">Publication year:</label>
+            <div class="col-sm-10 pt-3">
+                <input type="text" class="form-control form-control-lg" id="inputYear"
+                       placeholder="Enter year of publication">
+            </div>
+        </div>
+        <div class="form-group row m-5 justify-content-center">
+            <div class="col-auto pt-4">
+                <button type="submit" class="btn btn-primary btn-lg px-4 font-weight-bold">
+                    <i class="fas fa-plus pr-2"></i>Add book
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
