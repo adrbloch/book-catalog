@@ -42,14 +42,6 @@ public class DataLoader implements CommandLineRunner {
         Book book4 = new Book(rowling,"Harry Potter and the Deathly Hallows",bloomsbury,2007);
         Book book5 = new Book(gluchowski,"Metro 2033", insignis,2010);
 
-        publisherService.createPublisher(alen);
-        publisherService.createPublisher(bloomsbury);
-        publisherService.createPublisher(insignis);
-
-        authorService.createAuthor(tolkien);
-        authorService.createAuthor(rowling);
-        authorService.createAuthor(gluchowski);
-
         bookService.createBook(book1);
         bookService.createBook(book2);
         bookService.createBook(book3);

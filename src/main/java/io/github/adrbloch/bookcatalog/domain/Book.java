@@ -1,7 +1,6 @@
 package io.github.adrbloch.bookcatalog.domain;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "book")

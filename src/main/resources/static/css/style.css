@@ -1,6 +1,8 @@
 .jumbotron {
-    background-image: url("../img/books.jpg");
+    background: url("../img/books.jpg") no-repeat center center fixed;
     background-size: cover;
+    height: 100%;
+    overflow: hidden;
     letter-spacing: 10px;
 
 }

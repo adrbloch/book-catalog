@@ -23,7 +23,7 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Author getAuthor(Long id) throws ResourceNotFoundException {
+    public Author getAuthorById(Long id) throws ResourceNotFoundException {
         logger.info("Get author with id: {}", id);
         return checkIfExistsAndReturnAuthor(id);
     }
@@ -33,15 +33,15 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public Author createAuthor(Author author) throws ResourceAlreadyExistsException{
+    public Author createAuthor(Author author) throws ResourceAlreadyExistsException {
         logger.info("Create author...");
-        if (authorRepository.existsByName(author.getName()))
+        if (authorRepository.findByName(author.getName()).isPresent())
             throw new ResourceAlreadyExistsException("Author already exists!");
         else
             return authorRepository.save(author);
     }
 
-    public Author updateAuthor(Author author, Long id) throws ResourceNotFoundException {
+    public Author updateAuthor(Long id, Author author) throws ResourceNotFoundException {
         logger.info("Update author with id: {}", id);
 
         Author authorToUpdate = checkIfExistsAndReturnAuthor(id);
@@ -49,7 +49,7 @@ public class AuthorService {
         return authorRepository.save(authorToUpdate);
     }
 
-    public Author deleteAuthor(Long id) throws ResourceNotFoundException {
+    public Author deleteAuthorById(Long id) throws ResourceNotFoundException {
         logger.warn("Delete author with id: {}", id);
         Author authorToDelete = checkIfExistsAndReturnAuthor(id);
         authorRepository.deleteById(id);
@@ -61,8 +61,6 @@ public class AuthorService {
             throw new ResourceNotFoundException("Author with id {" + id + "} not found!");
         } else return authorRepository.findById(id).get();
     }
-
-
 
 
 }

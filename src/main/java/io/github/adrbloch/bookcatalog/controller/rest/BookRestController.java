@@ -1,24 +1,17 @@
-package io.github.adrbloch.bookcatalog.controller;
+package io.github.adrbloch.bookcatalog.controller.rest;
 
 
 import io.github.adrbloch.bookcatalog.domain.Book;
-import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
-import io.github.adrbloch.bookcatalog.repository.BookRepository;
 import io.github.adrbloch.bookcatalog.service.BookService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/booksRest")
 public class BookRestController {
 
     private BookService bookService;
@@ -35,7 +28,7 @@ public class BookRestController {
 
     @GetMapping("/{id}")
     ResponseEntity<Book> viewBook(@PathVariable Long id) {
-            return new ResponseEntity<>(bookService.getBook(id), HttpStatus.OK);
+            return new ResponseEntity<>(bookService.getBookById(id), HttpStatus.OK);
 
     }
 
@@ -47,12 +40,12 @@ public class BookRestController {
 
     @PutMapping("/{id}")
     ResponseEntity<Book> updateBook(@RequestBody Book newBook, @PathVariable Long id) {
-        return new ResponseEntity<>(bookService.updateBook(newBook, id), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.updateBook(id, newBook), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Book> deleteBook(@PathVariable Long id) {
-        return new ResponseEntity<>(bookService.deleteBook(id),HttpStatus.OK);
+        return new ResponseEntity<>(bookService.deleteBookById(id),HttpStatus.OK);
 
     }
 

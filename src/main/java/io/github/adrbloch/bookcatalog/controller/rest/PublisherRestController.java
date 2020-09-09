@@ -1,9 +1,7 @@
-package io.github.adrbloch.bookcatalog.controller;
+package io.github.adrbloch.bookcatalog.controller.rest;
 
 
-import io.github.adrbloch.bookcatalog.domain.Author;
 import io.github.adrbloch.bookcatalog.domain.Publisher;
-import io.github.adrbloch.bookcatalog.service.AuthorService;
 import io.github.adrbloch.bookcatalog.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/publishers")
+@RequestMapping("/publishersRest")
 public class PublisherRestController {
 
     private PublisherService publisherService;
@@ -30,7 +28,7 @@ public class PublisherRestController {
 
     @GetMapping("/{id}")
     ResponseEntity<Publisher> viewPublisher(@PathVariable Long id) {
-        return new ResponseEntity<>(publisherService.getPublisher(id), HttpStatus.OK);
+        return new ResponseEntity<>(publisherService.getPublisherById(id), HttpStatus.OK);
     }
 
     @PostMapping
@@ -39,13 +37,13 @@ public class PublisherRestController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher newPublisher, @PathVariable Long id) {
-        return new ResponseEntity<>(publisherService.updatePublisher(newPublisher, id), HttpStatus.OK);
+    ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher PublisherToUpdate, @PathVariable Long id) {
+        return new ResponseEntity<>(publisherService.updatePublisher(id, PublisherToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Publisher> deletePublisher(@PathVariable Long id) {
-        return new ResponseEntity<>(publisherService.deletePublisher(id),HttpStatus.OK);
+        return new ResponseEntity<>(publisherService.deletePublisherById(id),HttpStatus.OK);
 
     }
 

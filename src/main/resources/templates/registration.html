@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--    External css-->
-    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}"  rel="stylesheet" />
 
     <!--    Icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -61,9 +61,9 @@
                 </button>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-secondary btn-lg mb-2 px4 font-weight-bold">
+                <a th:href="@{/books/login}" class="btn btn-secondary btn-lg font-weight-bold mb-3 px-4">
                     <i class="fas fa-chevron-left pr-2"></i> Back
-                </button>
+                </a>
             </div>
         </div>
     </form>

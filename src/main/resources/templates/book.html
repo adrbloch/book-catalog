@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--    External css-->
-    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 
     <!--    Icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -28,33 +28,33 @@
 </div>
 
 
-<div class="container border border-primary px-0 my-5 text-center huge-txt">
-    <h1 class="font-weight-bold my-4">Book #1</h1>
+<div class="container border border-primary px-0 my-5 text-center huge-txt" th:object="${book}">
+    <h1 class="font-weight-bold my-4" th:text="'Book #'+ *{id}"></h1>
     <table class="table text-lg my-5 table-lg-padd">
         <tbody>
         <tr>
             <th scope="row">Author:</th>
-            <td>J.R.R. Tolkien</td>
+            <td th:text="*{author.name}"/>
         </tr>
         <tr>
             <th scope="row">Title:</th>
-            <td>Harry Potter and the Philosopher’s Stone</td>
+            <td th:text="*{title}"/>
         </tr>
         <tr>
             <th scope="row">Publisher:</th>
-            <td>Nowa Era, Warsaw</td>
+            <td th:utext="${book.publisher.name}+',<br> '+ ${book.publisher.city}"/>
         </tr>
         <tr>
             <th scope="row">Publication year:</th>
-            <td>2010</td>
+            <td th:text="*{publicationYear}"/>
         </tr>
 
         </tbody>
     </table>
     <div class="text-center pt-4">
-        <button type="button" class="btn btn-secondary btn-lg font-weight-bold mb-5 px-4">
+        <a th:href="@{/books/catalog}" class="btn btn-secondary btn-lg font-weight-bold mb-5 px-4">
             <i class="fas fa-chevron-left pr-2"></i> Back
-        </button>
+        </a>
     </div>
 </div>
 </body>
