@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--    External css-->
-    <link href="../static/css/style.css" th:href="@{/css/style.css}"  rel="stylesheet" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 
     <!--    Icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -29,29 +29,36 @@
 
 
 <div class="container border border-primary px-0  my-5 pt-3">
-    <form action="#" th:action="@{/books/save}"  th:object="${book}" method="POST" class="form-horizontal" enctype="multipart/form-data">
+    <form action="#" th:action="@{/books/save}" th:object="${book}" method="POST" class="form-horizontal"
+          enctype="multipart/form-data">
         <h1 class="text-center mt-3"><strong>Create a new book</strong></h1>
 
-        <div class="form-group row m-5" >
+        <div class="alert alert-danger error" th:if="${#fields.hasErrors('*')}">
+            <p th:each="err : ${#fields.errors('*')}" th:text="${err}" class="mt-2"></p>
+        </div>
+
+        <div class="form-group row m-5">
             <label for="inputAuthor" class="col-sm-2 col-form-label-lg font-weight-bold">Author:</label>
             <div class="col-sm-10 mt-1">
-                <input type="text" th:field="*{author.name}" class="form-control form-control-lg" id="inputAuthor" placeholder="Enter author">
+                <input type="text" th:field="*{author.name}" class="form-control form-control-lg" id="inputAuthor"
+                       placeholder="Enter author" th:errorclass="error-red-bd">
             </div>
         </div>
         <div class="form-group row m-5">
             <label for="inputTitle" class="col-sm-2 col-form-label-lg font-weight-bold">Title:</label>
             <div class="col-sm-10">
                 <input type="text" th:field="*{title}" class="form-control form-control-lg" id="inputTitle"
-                       placeholder="Enter title">
+                       placeholder="Enter title" th:errorclass="error-red-bd">
             </div>
         </div>
         <div class="form-group row m-5">
             <label for="inputPublisher" class="col-sm-2 col-form-label-lg font-weight-bold">Publisher:</label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{publisher.name}" class="form-control form-control-lg mt-1 mb-4" id="inputPublisher"
-                       placeholder="Enter publisher name">
-                <input type="text" th:field="*{publisher.city} "class="form-control form-control-lg mt-3"
-                       placeholder="Enter publisher city">
+                <input type="text" th:field="*{publisher.name}" class="form-control form-control-lg mt-1 mb-4"
+                       id="inputPublisher"
+                       placeholder="Enter publisher name" th:errorclass="error-red-bd">
+                <input type="text" th:field="*{publisher.city} " class="form-control form-control-lg mt-3"
+                       placeholder="Enter publisher city" th:errorclass="error-red-bd">
             </div>
 
         </div>
@@ -59,7 +66,7 @@
             <label for="inputYear" class="col-sm-2 col-form-label-lg font-weight-bold">Publication year:</label>
             <div class="col-sm-10 pt-3">
                 <input type="number" th:field="*{publicationYear}" class="form-control form-control-lg" id="inputYear"
-                       placeholder="Enter year of publication">
+                       placeholder="Enter year of publication" th:errorclass="error-red-bd">
             </div>
         </div>
         <div class="form-group row m-5 pt-4 justify-content-center">

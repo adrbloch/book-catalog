@@ -3,13 +3,18 @@ package io.github.adrbloch.bookcatalog.controller;
 import io.github.adrbloch.bookcatalog.domain.Author;
 import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.domain.Publisher;
+import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.service.AuthorService;
 import io.github.adrbloch.bookcatalog.service.BookService;
 import io.github.adrbloch.bookcatalog.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/books")
@@ -54,13 +59,24 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public String saveBook(@ModelAttribute("book") Book bookToSave) {
+    public String saveBook(@ModelAttribute("book") @Valid Book bookToSave, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors())
+            return "add";
+
         bookService.createBook(bookToSave);
         return "redirect:/books/catalog";
     }
 
     @PostMapping("/save/{id}")
-    public String updateBook(@PathVariable("id") Long id, @ModelAttribute("book") Book bookToUpdate) {
+    public String updateBook(
+            @PathVariable("id") Long id,
+            @ModelAttribute("book") @Valid Book bookToUpdate,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors())
+            return "edit";
+
         bookService.updateBook(id, bookToUpdate);
         return "redirect:/books/catalog";
     }
@@ -71,5 +87,16 @@ public class BookController {
         return "redirect:/books/catalog";
     }
 
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public String handle409Exception(ResourceAlreadyExistsException e, Model model) {
+        model.addAttribute("exceptionMessage", e.getMessage());
+        return "exception";
+    }
+
+
+    @GetMapping("/home")
+    public String homePage() {
+        return "home";
+    }
 }
 

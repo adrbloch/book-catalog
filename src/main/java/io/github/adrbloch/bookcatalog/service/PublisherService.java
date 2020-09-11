@@ -23,7 +23,7 @@ public class PublisherService {
         this.publisherRepository = publisherRepository;
     }
 
-    public Publisher getPublisherById(Long id) throws ResourceNotFoundException {
+    public Publisher getPublisherById(Long id) {
         logger.info("Get publisher with id: {}", id);
         return checkIfExistsAndReturnPublisher(id);
     }
@@ -43,7 +43,7 @@ public class PublisherService {
             return publisherRepository.save(publisher);
     }
 
-    public Publisher updatePublisher(Long id, Publisher publisher) throws ResourceNotFoundException {
+    public Publisher updatePublisher(Long id, Publisher publisher) {
         logger.info("Update publisher with id: {}", id);
 
         Publisher publisherToUpdate = checkIfExistsAndReturnPublisher(id);
@@ -52,14 +52,14 @@ public class PublisherService {
         return publisherRepository.save(publisherToUpdate);
     }
 
-    public Publisher deletePublisherById(Long id) throws ResourceNotFoundException {
+    public Publisher deletePublisherById(Long id) {
         logger.warn("Delete publisher with id: {}", id);
         Publisher publisherToDelete = checkIfExistsAndReturnPublisher(id);
         publisherRepository.deleteById(id);
         return publisherToDelete;
     }
 
-    private Publisher checkIfExistsAndReturnPublisher(Long id) {
+    private Publisher checkIfExistsAndReturnPublisher(Long id) throws ResourceNotFoundException{
         if (publisherRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Publisher with id {" + id + "} not found!");
         } else return publisherRepository.findById(id).get();

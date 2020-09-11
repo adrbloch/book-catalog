@@ -23,6 +23,25 @@
 
 }
 
-.table-lg-padd>tbody>tr>td, .table-lg-padd>tbody>tr>th, .table-lg-padd>tfoot>tr>td, .table-lg-padd>tfoot>tr>th, .table-lg-padd>thead>tr>td, .table-lg-padd>thead>tr>th {
+.table-lg-padd > tbody > tr > td, .table-lg-padd > tbody > tr > th, .table-lg-padd > tfoot > tr > td, .table-lg-padd > tfoot > tr > th, .table-lg-padd > thead > tr > td, .table-lg-padd > thead > tr > th {
     padding: 20px;
+}
+
+.error {
+    text-align: center;
+    color: red !important;
+
+}
+
+.error-red-bd {
+    border-color: red !important;
+}
+
+table {
+    counter-reset: section;
+}
+
+.count:before {
+    counter-increment: section;
+    content: counter(section);
 }

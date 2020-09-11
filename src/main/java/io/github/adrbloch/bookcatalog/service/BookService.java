@@ -33,7 +33,7 @@ public class BookService {
     }
 
 
-    public Book getBookById(Long id) throws ResourceNotFoundException {
+    public Book getBookById(Long id) {
         logger.info("Get book with id: {}", id);
         return checkIfExistsAndReturnBook(id);
     }
@@ -43,41 +43,47 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book createBook(Book book) throws ResourceAlreadyExistsException {
+    public Book createBook(Book book) {
         logger.info("Create book...");
         Book newBook = prepareToSave(book);
 
         return bookRepository.save(newBook);
     }
 
-    public Book updateBook(Long id, Book book) throws ResourceNotFoundException {
+    public Book updateBook(Long id, Book book) throws ResourceAlreadyExistsException {
         logger.info("Update book with id: {}", id);
         checkIfExistsAndReturnBook(id);
         Book updatedBook = prepareToUpdate(book);
 
+        Optional<Book> bookByAuthorNameAndTitle = bookRepository.findByAuthorNameAndTitle(updatedBook.getAuthor().getName(), book.getTitle());
+        if (bookByAuthorNameAndTitle.isPresent() && (!id.equals(bookByAuthorNameAndTitle.get().getId())))
+            throw new ResourceAlreadyExistsException("Book already exists!");
+
         return bookRepository.save(updatedBook);
     }
 
-    public Book deleteBookById(Long id) throws ResourceNotFoundException {
+    public Book deleteBookById(Long id) {
         logger.warn("Delete book with id: {}", id);
         Book bookToDelete = checkIfExistsAndReturnBook(id);
         bookRepository.deleteById(id);
         return bookToDelete;
     }
 
-    private Book checkIfExistsAndReturnBook(Long id) {
+    private Book checkIfExistsAndReturnBook(Long id) throws ResourceNotFoundException {
         if (bookRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Book with id {" + id + "} not found!");
         } else return bookRepository.findById(id).get();
     }
 
-    private Book prepareToSave(Book book) {
+    private Book prepareToSave(Book book) throws ResourceAlreadyExistsException {
 
         Book newBook = new Book();
         Author author = book.getAuthor();
         String authorName = author.getName();
 
-        if (bookRepository.existsByAuthorNameAndTitle(authorName, book.getTitle()))
+        if (bookRepository
+                .findByAuthorNameAndTitle(authorName, book.getTitle())
+                .isPresent())
             throw new ResourceAlreadyExistsException("Book already exists!");
 
         Optional<Author> authorByName = authorRepository.findByName(authorName);

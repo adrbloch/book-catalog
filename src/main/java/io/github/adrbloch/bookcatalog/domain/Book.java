@@ -1,6 +1,8 @@
 package io.github.adrbloch.bookcatalog.domain;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "book")
@@ -9,13 +11,22 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Valid
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
+
+    @NotBlank(message = "Book title must not be empty")
     private String title;
+
+    @Valid
     @ManyToOne
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
+
+    @Min(value = 1900, message = "Publication year must be >1900")
+    @Max(value = 2020, message = "Publication year must be <=2020")
     private long publicationYear;
 
     public Book() {

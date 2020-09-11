@@ -3,6 +3,7 @@ package io.github.adrbloch.bookcatalog.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -12,8 +13,13 @@ public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Publisher name must not be empty")
     private String name;
+
+    @NotBlank(message = "Publisher city must not be empty")
     private String city;
+
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Book> bookSet;

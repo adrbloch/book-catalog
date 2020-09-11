@@ -1,13 +1,14 @@
 package io.github.adrbloch.bookcatalog.repository;
 
-import io.github.adrbloch.bookcatalog.domain.Author;
 import io.github.adrbloch.bookcatalog.domain.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BookRepository extends JpaRepository <Book, Long> {
 
-    boolean existsByAuthorNameAndTitle(String authorName, String title);
+    Optional<Book> findByAuthorNameAndTitle(String authorName, String title);
 
 }

@@ -23,7 +23,7 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Author getAuthorById(Long id) throws ResourceNotFoundException {
+    public Author getAuthorById(Long id) {
         logger.info("Get author with id: {}", id);
         return checkIfExistsAndReturnAuthor(id);
     }
@@ -41,7 +41,7 @@ public class AuthorService {
             return authorRepository.save(author);
     }
 
-    public Author updateAuthor(Long id, Author author) throws ResourceNotFoundException {
+    public Author updateAuthor(Long id, Author author) {
         logger.info("Update author with id: {}", id);
 
         Author authorToUpdate = checkIfExistsAndReturnAuthor(id);
@@ -49,14 +49,14 @@ public class AuthorService {
         return authorRepository.save(authorToUpdate);
     }
 
-    public Author deleteAuthorById(Long id) throws ResourceNotFoundException {
+    public Author deleteAuthorById(Long id)  {
         logger.warn("Delete author with id: {}", id);
         Author authorToDelete = checkIfExistsAndReturnAuthor(id);
         authorRepository.deleteById(id);
         return authorToDelete;
     }
 
-    private Author checkIfExistsAndReturnAuthor(Long id) {
+    private Author checkIfExistsAndReturnAuthor(Long id) throws ResourceNotFoundException {
         if (authorRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Author with id {" + id + "} not found!");
         } else return authorRepository.findById(id).get();
