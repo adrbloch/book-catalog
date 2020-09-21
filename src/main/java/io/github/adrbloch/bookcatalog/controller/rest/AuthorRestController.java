@@ -37,8 +37,8 @@ public class AuthorRestController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Author> updateAuthor(@RequestBody Author AuthortoUpdate, @PathVariable Long id) {
-        return new ResponseEntity<>(authorService.updateAuthor(id, AuthortoUpdate), HttpStatus.OK);
+    ResponseEntity<Author> updateAuthor(@RequestBody Author authorToUpdate, @PathVariable Long id) {
+        return new ResponseEntity<>(authorService.updateAuthor(id, authorToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -121,10 +121,10 @@ public class BookService {
         Author author = book.getAuthor();
         String authorName = author.getName();
 
-        Optional<Author> authorByName = authorRepository.findByName(authorName);
-        if (authorByName.isPresent()) {
-            book.setAuthor(authorByName.get());
 
+            Optional<Author> authorByName = authorRepository.findByName(authorName);
+            if (authorByName.isPresent()) {
+                book.setAuthor(authorByName.get());
         } else {
             Author newAuthor = new Author(authorName);
             book.setAuthor(newAuthor);

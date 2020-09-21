@@ -45,3 +45,4 @@ table {
     counter-increment: section;
     content: counter(section);
 }
+

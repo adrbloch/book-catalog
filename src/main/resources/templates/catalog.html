@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--    External css-->
-    <link href="../static/css/style.css" th:href="@{/css/style.css}"  rel="stylesheet" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 
     <!--    Icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -33,7 +33,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item border-right pr-2 mr-2">
-                    <a class="nav-link" th:href="@{/books/home}">Home </a>
+                    <a class="nav-link" th:href="@{/home}">Home </a>
                 </li>
                 <li class="nav-item active border-right pr-2 mr-2">
                     <a class="nav-link" href="#">Catalog <span class="sr-only">(current)</span> </a>
@@ -41,7 +41,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item border-left pl-2">
-                    <a class="nav-link" href="#">Sign out</a>
+                    <a class="nav-link" th:href="@{/logout}">Sign out</a>
                 </li>
             </ul>
         </div>
@@ -53,7 +53,7 @@
             <th>#</th>
             <th>Title</th>
             <th>Author</th>
-            <th class="text-center">View / Delete / Edit</th>
+            <th class="text-center">View / Edit / Delete</th>
 
         </tr>
         </thead>

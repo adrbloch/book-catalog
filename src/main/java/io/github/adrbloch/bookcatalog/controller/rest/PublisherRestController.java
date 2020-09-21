@@ -37,8 +37,8 @@ public class PublisherRestController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher PublisherToUpdate, @PathVariable Long id) {
-        return new ResponseEntity<>(publisherService.updatePublisher(id, PublisherToUpdate), HttpStatus.OK);
+    ResponseEntity<Publisher> updatePublisher(@RequestBody Publisher publisherToUpdate, @PathVariable Long id) {
+        return new ResponseEntity<>(publisherService.updatePublisher(id, publisherToUpdate), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

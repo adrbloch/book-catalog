@@ -31,7 +31,6 @@ public class Author {
 
     public Author(String name, Set<Book> bookSet) {
         this.name = name;
-
     }
 
     public Long getId() {

@@ -22,7 +22,7 @@
 
 </head>
 <body>
-<div class="jumbotron text-center text-shadow">
+<div class="jumbotron text-center text-shadow border border-bottom">
     <h1 class="display-2 font-weight-bold">Book catalog</h1>
     <h3>Browse your favourite books!</h3>
 </div>
@@ -32,8 +32,8 @@
     <form action="#" th:action="@{/books/save/{id}(id=${book.id})}"  th:object="${book}" method="POST" class="form-horizontal">
         <h1 class="text-center mt-4"><strong>Edit book</strong></h1>
 
-        <div class="alert alert-danger error" th:if="${#fields.hasErrors('*')}">
-            <p th:each="err : ${#fields.errors('*')}" th:text="${err}" class="mt-2"></p>
+        <div class="alert alert-danger error" th:if="${occurredException}">
+            <h2 th:text="${exceptionMessage}" class="error"></h2>
         </div>
 
         <input type="hidden" th:field="*{id}" />
@@ -43,6 +43,7 @@
             <div class="col-sm-10 mt-1">
                 <input type="text" th:field="*{author.name}" class="form-control form-control-lg"
                        id="inputAuthor" placeholder="Enter author" th:errorclass="error-red-bd">
+                <p th:if="${#fields.hasErrors('author.name')}" th:errors="*{author.name}" class="error"></p>
             </div>
         </div>
 
@@ -51,16 +52,20 @@
             <div class="col-sm-10">
                 <input type="text" th:field="*{title}" class="form-control form-control-lg"
                        id="inputTitle" placeholder="Enter title" th:errorclass="error-red-bd">
+                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></p>
             </div>
         </div>
 
         <div class="form-group row m-5">
             <label for="inputPublisher" class="col-sm-2 col-form-label-lg font-weight-bold">Publisher:</label>
             <div class="col-sm-10">
-                <input type="text" th:field="*{publisher.name}" class="form-control form-control-lg mt-1 mb-4"
+                <input type="text" th:field="*{publisher.name}" class="form-control form-control-lg mt-1"
                        id="inputPublisher" placeholder="Enter publisher name" th:errorclass="error-red-bd">
+                <p th:if="${#fields.hasErrors('publisher.name')}" th:errors="*{publisher.name}" class="error"></p>
+
                 <input type="text" th:field="*{publisher.city}" class="form-control form-control-lg mt-3"
                        placeholder="Enter publisher city" th:errorclass="error-red-bd">
+                <p th:if="${#fields.hasErrors('publisher.city')}" th:errors="*{publisher.city}" class="error"></p>
             </div>
 
         </div>
@@ -69,6 +74,7 @@
             <div class="col-sm-10 pt-3">
                 <input type="number" th:field="*{publicationYear}" class="form-control form-control-lg"
                        id="inputYear" placeholder="Enter year of publication" th:errorclass="error-red-bd">
+                <p th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}" class="error"></p>
             </div>
         </div>
         <div class="form-group row m-5 pt-4 justify-content-center">

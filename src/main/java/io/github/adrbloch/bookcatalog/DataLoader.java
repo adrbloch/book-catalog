@@ -3,9 +3,7 @@ package io.github.adrbloch.bookcatalog;
 import io.github.adrbloch.bookcatalog.domain.Author;
 import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.domain.Publisher;
-import io.github.adrbloch.bookcatalog.service.AuthorService;
 import io.github.adrbloch.bookcatalog.service.BookService;
-import io.github.adrbloch.bookcatalog.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,10 +13,10 @@ public class DataLoader implements CommandLineRunner {
 
     private BookService bookService;
 
-
     @Autowired
     public DataLoader(BookService bookService) {
         this.bookService = bookService;
+
     }
 
     @Override
@@ -44,6 +42,7 @@ public class DataLoader implements CommandLineRunner {
         bookService.createBook(book3);
         bookService.createBook(book4);
         bookService.createBook(book5);
+
 
     }
 
