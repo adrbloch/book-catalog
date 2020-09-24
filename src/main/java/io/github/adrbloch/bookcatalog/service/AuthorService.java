@@ -16,16 +16,21 @@ public class AuthorService {
 
     public static final Logger logger = LoggerFactory.getLogger(AuthorService.class);
 
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
     @Autowired
-    public AuthorService(AuthorRepository authorRepository) {
+    public AuthorService( AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 
     public Author getAuthorById(Long id) {
         logger.info("Get author with id: {}", id);
-        return checkIfExistsAndReturnAuthor(id);
+        return checkIfExistsByIdAndReturnAuthor(id);
+    }
+
+    public Author getAuthorByName(String authorName) {
+        logger.info("Get author with name: {}", authorName);
+        return checkIfExistsByNameAndReturnAuthor(authorName);
     }
 
     public List<Author> getAllAuthors() {
@@ -33,7 +38,7 @@ public class AuthorService {
         return authorRepository.findAll();
     }
 
-    public Author createAuthor(Author author) throws ResourceAlreadyExistsException {
+    public Author createAuthor(Author author) {
         logger.info("Create author...");
         if (authorRepository.findByName(author.getName()).isPresent())
             throw new ResourceAlreadyExistsException("Author already exists!");
@@ -44,22 +49,28 @@ public class AuthorService {
     public Author updateAuthor(Long id, Author author) {
         logger.info("Update author with id: {}", id);
 
-        Author authorToUpdate = checkIfExistsAndReturnAuthor(id);
+        Author authorToUpdate = checkIfExistsByIdAndReturnAuthor(id);
         authorToUpdate.setName(author.getName());
         return authorRepository.save(authorToUpdate);
     }
 
-    public Author deleteAuthorById(Long id)  {
+    public Author deleteAuthorById(Long id) {
         logger.warn("Delete author with id: {}", id);
-        Author authorToDelete = checkIfExistsAndReturnAuthor(id);
+        Author authorToDelete = checkIfExistsByIdAndReturnAuthor(id);
         authorRepository.deleteById(id);
         return authorToDelete;
     }
 
-    private Author checkIfExistsAndReturnAuthor(Long id) throws ResourceNotFoundException {
+    private Author checkIfExistsByIdAndReturnAuthor(Long id) {
         if (authorRepository.findById(id).isEmpty()) {
-            throw new ResourceNotFoundException("Author with id {" + id + "} not found!");
+            throw new ResourceNotFoundException("Author with id: {" + id + "} not found!");
         } else return authorRepository.findById(id).get();
+    }
+
+    private Author checkIfExistsByNameAndReturnAuthor(String authorName) {
+        if (authorRepository.findByName(authorName).isEmpty()) {
+            throw new ResourceNotFoundException("Author with name: {" + authorName + "} not found!");
+        } else return authorRepository.findByName(authorName).get();
     }
 
 

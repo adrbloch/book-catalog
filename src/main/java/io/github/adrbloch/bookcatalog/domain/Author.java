@@ -29,10 +29,6 @@ public class Author {
         this.name = name;
     }
 
-    public Author(String name, Set<Book> bookSet) {
-        this.name = name;
-    }
-
     public Long getId() {
         return id;
     }

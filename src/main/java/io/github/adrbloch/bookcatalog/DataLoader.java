@@ -11,17 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    private BookService bookService;
+    private final BookService bookService;
 
     @Autowired
     public DataLoader(BookService bookService) {
         this.bookService = bookService;
-
     }
 
     @Override
     public void run(String... args) {
-
 
         Author tolkien = new Author("J.R.R. Tolkien");
         Author rowling = new Author("J.K. Rowling");
@@ -42,8 +40,6 @@ public class DataLoader implements CommandLineRunner {
         bookService.createBook(book3);
         bookService.createBook(book4);
         bookService.createBook(book5);
-
-
     }
 
 }

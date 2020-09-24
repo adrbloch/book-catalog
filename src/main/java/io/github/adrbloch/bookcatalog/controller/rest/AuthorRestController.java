@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/authorsRest")
 public class AuthorRestController {
 
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
     @Autowired
     public AuthorRestController(AuthorService authorService) {
@@ -27,8 +27,13 @@ public class AuthorRestController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Author> viewAuthor(@PathVariable Long id) {
+    ResponseEntity<Author> viewAuthorById(@PathVariable Long id) {
         return new ResponseEntity<>(authorService.getAuthorById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{name}")
+    ResponseEntity<Author> viewAuthorByName (@PathVariable String name) {
+        return new ResponseEntity<>(authorService.getAuthorByName(name), HttpStatus.OK);
     }
 
     @PostMapping

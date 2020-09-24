@@ -13,13 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     public static final Logger logger = LoggerFactory.getLogger(UserService.class);
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -29,7 +30,12 @@ public class UserService {
 
     public User getUserById(Long id) {
         logger.info("Get user with id: {}", id);
-        return checkIfExistsAndReturnUser(id);
+        return checkIfExistsByIdAndReturnUser(id);
+    }
+
+    public User getUserByName(String username) {
+        logger.info("Get user with username: {}", username);
+        return checkIfExistsByNameAndReturnUser(username);
     }
 
     public List<User> getAllUsers() {
@@ -53,7 +59,7 @@ public class UserService {
     public User updateUser(Long id, User user) {
         logger.info("Update user with id: {}", id);
 
-        User userToUpdate = checkIfExistsAndReturnUser(id);
+        User userToUpdate = checkIfExistsByIdAndReturnUser(id);
         userToUpdate.setUsername(user.getUsername());
         userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(userToUpdate);
@@ -61,15 +67,25 @@ public class UserService {
 
     public User deleteUserById(Long id) {
         logger.warn("Delete user with id: {}", id);
-        User userToDelete = checkIfExistsAndReturnUser(id);
+        User userToDelete = checkIfExistsByIdAndReturnUser(id);
         userRepository.deleteById(id);
         return userToDelete;
     }
 
-    private User checkIfExistsAndReturnUser(Long id) throws ResourceNotFoundException {
-        if (userRepository.findById(id).isEmpty()) {
-            throw new ResourceNotFoundException("User with id {" + id + "} not found!");
-        } else return userRepository.findById(id).get();
+    private User checkIfExistsByIdAndReturnUser(Long id) throws ResourceNotFoundException {
+        Optional<User> userById = userRepository.findById(id);
+        if (userById.isEmpty()) {
+            throw new ResourceNotFoundException("User with id: {" + id + "} not found!");
+        } else
+            return userById.get();
+    }
+
+    private User checkIfExistsByNameAndReturnUser(String username) throws ResourceNotFoundException {
+        Optional<User> userByName = userRepository.findByUsername(username);
+        if (userByName.isEmpty()) {
+            throw new ResourceNotFoundException("User with username: {" + username + "} not found!");
+        } else
+            return userByName.get();
     }
 
 }

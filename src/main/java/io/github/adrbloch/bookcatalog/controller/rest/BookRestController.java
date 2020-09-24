@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/booksRest")
 public class BookRestController {
 
-    private BookService bookService;
+    private final BookService bookService;
 
     @Autowired
     public BookRestController(BookService bookService) {
@@ -27,9 +27,13 @@ public class BookRestController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Book> viewBook(@PathVariable Long id) {
+    ResponseEntity<Book> viewBookById(@PathVariable Long id) {
             return new ResponseEntity<>(bookService.getBookById(id), HttpStatus.OK);
+    }
 
+    @GetMapping("/{authorName}/{title}")
+    ResponseEntity<Book> viewBookByAuthorNameAndTitle(@PathVariable String authorName, @PathVariable String title) {
+        return new ResponseEntity<>(bookService.getBookByAuthorNameAndTitle(authorName, title), HttpStatus.OK);
     }
 
     @PostMapping

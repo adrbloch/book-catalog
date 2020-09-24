@@ -2,9 +2,7 @@ package io.github.adrbloch.bookcatalog.controller;
 
 import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
-import io.github.adrbloch.bookcatalog.service.AuthorService;
 import io.github.adrbloch.bookcatalog.service.BookService;
-import io.github.adrbloch.bookcatalog.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,23 +16,18 @@ import javax.validation.Valid;
 public class BookController {
 
     BookService bookService;
-    AuthorService authorService;
-    PublisherService publisherService;
 
     @Autowired
-    public BookController(BookService bookService, AuthorService authorService, PublisherService publisherService) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
-        this.authorService = authorService;
-        this.publisherService = publisherService;
-    }
 
+    }
 
     @GetMapping("/catalog")
     public String viewAll(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
         return "catalog";
     }
-
 
     @GetMapping("/{id}")
     public String viewBook(@PathVariable("id") Long id, Model model) {
@@ -70,7 +63,6 @@ public class BookController {
             model.addAttribute("exceptionMessage", e.getMessage());
             return "add";
         }
-
         return "redirect:/books/catalog";
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/publishersRest")
 public class PublisherRestController {
 
-    private PublisherService publisherService;
+    private final PublisherService publisherService;
 
     @Autowired
     public PublisherRestController(PublisherService publisherService) {
@@ -27,8 +27,13 @@ public class PublisherRestController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Publisher> viewPublisher(@PathVariable Long id) {
+    ResponseEntity<Publisher> viewPublisherById(@PathVariable Long id) {
         return new ResponseEntity<>(publisherService.getPublisherById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{name}/{city}")
+    ResponseEntity<Publisher> viewPublisherByNameAndCity(@PathVariable String name, @PathVariable String city) {
+        return new ResponseEntity<>(publisherService.getPublisherByNameAndCity(name, city), HttpStatus.OK);
     }
 
     @PostMapping
