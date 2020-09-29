@@ -25,12 +25,12 @@ public class AuthorService {
 
     public Author getAuthorById(Long id) {
         logger.info("Get author with id: {}", id);
-        return checkIfExistsByIdAndReturnAuthor(id);
+        return returnAuthorIfExistsById(id);
     }
 
     public Author getAuthorByName(String authorName) {
         logger.info("Get author with name: {}", authorName);
-        return checkIfExistsByNameAndReturnAuthor(authorName);
+        return returnAuthorIfExistsByName(authorName);
     }
 
     public List<Author> getAllAuthors() {
@@ -49,28 +49,30 @@ public class AuthorService {
     public Author updateAuthor(Long id, Author author) {
         logger.info("Update author with id: {}", id);
 
-        Author authorToUpdate = checkIfExistsByIdAndReturnAuthor(id);
+        Author authorToUpdate = returnAuthorIfExistsById(id);
         authorToUpdate.setName(author.getName());
         return authorRepository.save(authorToUpdate);
     }
 
     public Author deleteAuthorById(Long id) {
         logger.warn("Delete author with id: {}", id);
-        Author authorToDelete = checkIfExistsByIdAndReturnAuthor(id);
+        Author authorToDelete = returnAuthorIfExistsById(id);
         authorRepository.deleteById(id);
         return authorToDelete;
     }
 
-    private Author checkIfExistsByIdAndReturnAuthor(Long id) {
+    Author returnAuthorIfExistsById(Long id) {
         if (authorRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Author with id: {" + id + "} not found!");
-        } else return authorRepository.findById(id).get();
+        } else
+            return authorRepository.findById(id).get();
     }
 
-    private Author checkIfExistsByNameAndReturnAuthor(String authorName) {
+    Author returnAuthorIfExistsByName(String authorName) {
         if (authorRepository.findByName(authorName).isEmpty()) {
             throw new ResourceNotFoundException("Author with name: {" + authorName + "} not found!");
-        } else return authorRepository.findByName(authorName).get();
+        } else
+            return authorRepository.findByName(authorName).get();
     }
 
 

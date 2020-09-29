@@ -33,14 +33,13 @@ public class BookService {
 
     public Book getBookById(Long id) {
         logger.info("Get book with id: {}", id);
-        return checkIfExistsByIdAndReturnBook(id);
+        return returnBookIfExistsById(id);
     }
 
     public Book getBookByAuthorNameAndTitle(String authorName, String title) {
         logger.info("Book with author: {" + authorName + "} and title:{" + title + "}");
-        return checkIfExistsByAuthorNameAndTitleAndReturnBook(authorName, title);
+        return returnBookIfExistsByAuthorNameAndTitle(authorName, title);
     }
-
 
     public List<Book> getAllBooks() {
         logger.info("Get all books");
@@ -66,7 +65,7 @@ public class BookService {
 
     public Book updateBook(Long id, Book book) {
         logger.info("Update book with id: {}", id);
-        checkIfExistsByIdAndReturnBook(id);
+        returnBookIfExistsById(id);
 
         Author author = book.getAuthor();
         String authorName = author.getName();
@@ -83,26 +82,27 @@ public class BookService {
 
     public Book deleteBookById(Long id) {
         logger.warn("Delete book with id: {}", id);
-        Book bookToDelete = checkIfExistsByIdAndReturnBook(id);
+        Book bookToDelete = returnBookIfExistsById(id);
         bookRepository.deleteById(id);
         return bookToDelete;
     }
 
-    private Book checkIfExistsByIdAndReturnBook(Long id) {
+    Book returnBookIfExistsById(Long id) {
         if (bookRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Book with id: {" + id + "} not found!");
         } else return bookRepository.findById(id).get();
     }
 
-    private Book checkIfExistsByAuthorNameAndTitleAndReturnBook(String authorName, String title) {
+    Book returnBookIfExistsByAuthorNameAndTitle(String authorName, String title) {
         if (bookRepository.findByAuthorNameAndTitle(authorName, title).isEmpty()) {
             logger.info("Book with author: {" + authorName + "} and title:{" + title + "}");
             throw new ResourceNotFoundException("Book with author: {" + authorName + "} and title:{" + title + "}) not found!");
-        } else return bookRepository.findByAuthorNameAndTitle(authorName,title).get();
+        } else
+            return bookRepository.findByAuthorNameAndTitle(authorName,title).get();
     }
 
 
-    private Book prepareBookToProcess(Book processingBook, Book bookToSave, String authorName) {
+    Book prepareBookToProcess(Book processingBook, Book bookToSave, String authorName) {
 
         try {
             Author authorByName = authorService.getAuthorByName(authorName);

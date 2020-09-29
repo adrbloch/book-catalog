@@ -24,6 +24,12 @@ public class User {
     public User() {
     }
 
+    public User(String username, String password, String matchingPassword) {
+        this.username = username;
+        this.password = password;
+        this.matchingPassword = matchingPassword;
+    }
+
     public Long getId() {
         return id;
     }

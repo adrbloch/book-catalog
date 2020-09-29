@@ -26,12 +26,12 @@ public class PublisherService {
 
     public Publisher getPublisherById(Long id) {
         logger.info("Get publisher with id: {}", id);
-        return checkIfExistsByIdAndReturnPublisher(id);
+        return returnPublisherIfExistsById(id);
     }
 
     public Publisher getPublisherByNameAndCity(String name, String city) {
         logger.info("Get Publisher with name: {" + name + "} and city: {" + city + "}");
-        return checkIfExistsByNameAndCityAndReturnPublisher(name, city);
+        return returnPublisherIfExistsByNameAndAcity(name, city);
     }
 
     public List<Publisher> getAllPublishers() {
@@ -52,7 +52,7 @@ public class PublisherService {
     public Publisher updatePublisher(Long id, Publisher publisher) {
         logger.info("Update publisher with id: {}", id);
 
-        Publisher publisherToUpdate = checkIfExistsByIdAndReturnPublisher(id);
+        Publisher publisherToUpdate = returnPublisherIfExistsById(id);
         publisherToUpdate.setName(publisher.getName());
         publisherToUpdate.setCity(publisher.getCity());
         return publisherRepository.save(publisherToUpdate);
@@ -60,12 +60,12 @@ public class PublisherService {
 
     public Publisher deletePublisherById(Long id) {
         logger.warn("Delete publisher with id: {}", id);
-        Publisher publisherToDelete = checkIfExistsByIdAndReturnPublisher(id);
+        Publisher publisherToDelete = returnPublisherIfExistsById(id);
         publisherRepository.deleteById(id);
         return publisherToDelete;
     }
 
-    private Publisher checkIfExistsByIdAndReturnPublisher(Long id) {
+    Publisher returnPublisherIfExistsById(Long id) {
         Optional<Publisher> publisherById = publisherRepository.findById(id);
         if (publisherById.isEmpty()) {
             throw new ResourceNotFoundException("Publisher with id: {" + id + "} not found!");
@@ -73,7 +73,7 @@ public class PublisherService {
             return publisherById.get();
     }
 
-    private Publisher checkIfExistsByNameAndCityAndReturnPublisher(String name, String city) {
+    Publisher returnPublisherIfExistsByNameAndAcity(String name, String city) {
         if (publisherRepository.findByNameAndCity(name, city).isEmpty()) {
             throw new ResourceNotFoundException("Publisher with name: {" + name + "} and city: {" + city + "} not found!");
         } else

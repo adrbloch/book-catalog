@@ -32,12 +32,6 @@ public class Publisher {
         this.city = city;
     }
 
-    public Publisher(String name, String city, Set<Book> bookSet) {
-        this.name = name;
-        this.city = city;
-        this.bookSet = bookSet;
-    }
-
     public Long getId() {
         return id;
     }
