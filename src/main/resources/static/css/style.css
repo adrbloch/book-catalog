@@ -1,36 +1,125 @@
 .jumbotron {
     background: url("../img/books.jpg") no-repeat center center fixed;
     background-size: cover;
-    height: 100%;
     overflow: hidden;
     letter-spacing: 10px;
-
+    text-align: center;
+    border-bottom: white;
+    margin-bottom: 0 !important;
 }
 
-.text-shadow {
+.jumbotron > h1 {
+    font-size: 5.5rem;
+    font-weight: bold;
+}
+
+.container {
+    text-align: center;
+    padding: 0 !important;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.heading {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: .25rem;
+    padding-top: .25rem;
+}
+
+.form-group {
+    margin: 3rem !important;
+    offset: 0.5rem;
+}
+
+.input-group-prepend > input {
+    max-width: 70%;
+}
+
+.input-group-prepend > span {
+    margin-left: 3rem;
+}
+
+.btn-back {
+    margin-bottom: 2rem;
+}
+
+.btn-back > a {
+    font-weight: bold;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn-back > a > i {
+    padding-right: .5rem;
+}
+
+.confirm-btn > button {
+    font-weight: bold;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: .5rem;
+}
+
+.confirm-btn > button > i {
+    padding-right: .5rem;
+}
+
+.add-btn {
+    text-align: center;
+}
+
+.add-btn > a {
+    font-weight: bold;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: .5rem;
+}
+
+.add-btn > a > i {
+    padding-right: .5rem;
+}
+
+label {
+    font-weight: bold;
+}
+
+.txt-shadow {
     text-shadow: -2px 0 5px whitesmoke,
     0 3px 5px whitesmoke,
     3px 0 5px whitesmoke,
     0 -5px 5px whitesmoke;
 }
 
-.medium-txt {
+.md-txt {
     font-size: 1.2rem;
 }
 
-.huge-txt {
+.big-txt {
     font-size: 1.5rem;
 
 }
 
-.table-lg-padd > tbody > tr > td, .table-lg-padd > tbody > tr > th, .table-lg-padd > tfoot > tr > td, .table-lg-padd > tfoot > tr > th, .table-lg-padd > thead > tr > td, .table-lg-padd > thead > tr > th {
+.table-lg-mrg-padd {
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+}
+
+.table-lg-mrg-padd > tbody > tr > td, .table-lg-mrg-padd > tbody > tr > th, .table-lg-mrg-padd > tfoot > tr > td, .table-lg-mrg-padd > tfoot > tr > th, .table-lg-mrg-padd > thead > tr > td, .table-lg-mrg-padd > thead > tr > th {
     padding: 20px;
+}
+
+.alert {
+    margin-top: 1rem;
+    text-align: center;
 }
 
 .error {
     text-align: center;
     color: red !important;
-
 }
 
 .error-red-bd {
@@ -38,11 +127,96 @@
 }
 
 table {
+    margin-bottom: 4rem !important;
     counter-reset: section;
+    text-align: center !important;
+}
+
+.tb-border {
+    border: 1px solid lightgray;
 }
 
 .count:before {
     counter-increment: section;
     content: counter(section);
 }
+
+body, html {
+    height: 100%;
+}
+
+.table-striped {
+    margin-top: 1.5rem;
+    margin-left: .5rem;
+}
+
+nav > div > ul > li {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+}
+
+.container > h1 {
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+form > h1 {
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.home-head {
+    margin-top: 5rem;
+    align-items: center;
+    text-align: center;
+}
+
+.home-head > div {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-head > div > h1 {
+    margin-bottom: .25rem;
+    font-size: 3.5rem;
+    font-weight: 400;
+}
+
+#inputPublisher {
+    margin-top: .25rem;
+}
+
+#inputPublisherCity {
+    margin-top: 1rem;
+}
+
+.btn-div {
+    padding-top: 1.5rem;
+    margin-bottom: 0 !important;
+    justify-content: center;
+}
+
+input, input::placeholder {
+    text-align: center;
+}
+
+.bordered {
+    border: 1px solid #007bff;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.low-width {
+    max-width: 70vh;
+}
+
+.md-width {
+    max-width: 100vh;
+}
+
+
+
+
 

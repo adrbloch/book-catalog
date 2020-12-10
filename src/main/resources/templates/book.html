@@ -19,18 +19,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
     <title>Book</title>
-
 </head>
+
 <body>
-<div class="jumbotron text-center text-shadow border border-bottom">
-    <h1 class="display-2 font-weight-bold">Book catalog</h1>
+<div class="jumbotron txt-shadow">
+    <h1>Book catalog</h1>
     <h3>Browse your favourite books!</h3>
 </div>
 
-
-<div class="container border border-primary px-0 my-5 text-center huge-txt" th:object="${book}">
-    <h1 class="font-weight-bold my-4" th:text="'Book #'+ *{id}"></h1>
-    <table class="table text-lg my-5 table-lg-padd">
+<div class="container big-txt border border-secondary" th:object="${book}">
+    <h1 th:text="'Book #'+ *{id}"></h1>
+    <table class="table table-lg-padd">
         <tbody>
         <tr>
             <th scope="row">Author:</th>
@@ -48,12 +47,11 @@
             <th scope="row">Publication year:</th>
             <td th:text="*{publicationYear}"/>
         </tr>
-
         </tbody>
     </table>
-    <div class="text-center pt-4">
-        <a th:href="@{/books/catalog}" class="btn btn-secondary btn-lg font-weight-bold mb-5 px-4">
-            <i class="fas fa-chevron-left pr-2"></i> Back
+    <div class="col-auto btn-back">
+        <a th:href="@{/books/catalog}" class="btn btn-secondary btn-lg">
+            <i class="fas fa-chevron-left"></i> Back
         </a>
     </div>
 </div>

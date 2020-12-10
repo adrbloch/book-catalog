@@ -19,70 +19,77 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
     <title>Registration</title>
-
 </head>
+
 <body>
-<div class="jumbotron text-center text-shadow border border-bottom">
-    <h1 class="display-2 font-weight-bold">Book catalog</h1>
+<div class="jumbotron txt-shadow">
+    <h1>Book catalog</h1>
     <h3>Browse your favourite books!</h3>
 </div>
 
+<div class="container">
+    <div class="bordered low-width">
+        <form action="#" th:action="@{/save}" th:object="${user}" method="POST" class="form-horizontal"
+              enctype="multipart/form-data">
+            <div>
+                <h2 class="heading"> CREATE ACCOUNT </h2>
+            </div>
 
-<div class="container border border-primary px-0 my-5">
-    <form action="#" th:action="@{/save}" th:object="${user}" method="POST" class="form-horizontal"
-          enctype="multipart/form-data">
-        <div>
-            <h2 class="bg-primary text-white text-center font-weight-bold py-1"> CREATE ACCOUNT </h2>
-        </div>
+            <div class="alert alert-danger error" th:if="${occurredUserException}">
+                <h5 th:text="${exceptionUserMessage}" class="error"></h5>
+            </div>
 
-        <div class="alert alert-danger error mt-3" th:if="${occurredUserException}">
-            <h4 th:text="${exceptionUserMessage}" class="error"></h4>
-        </div>
+            <div class="alert alert-danger error" th:if="${occurredPasswordException}">
+                <h5 th:text="${exceptionPasswordMessage}" class="error"></h5>
+            </div>
 
-        <div class="alert alert-danger error mt-3" th:if="${occurredPasswordException}">
-            <h4 th:text="${exceptionPasswordMessage}" class="error"></h4>
-        </div>
-
-        <div class=" form-group row m-5 pt-4">
-            <label for="inputUsername" class="col-sm-2 col-form-label-lg font-weight-bold">Username:</label>
-            <div class="col-sm-10">
-                <input type="text" th:field="*{username}" class="form-control form-control-lg" id="inputUsername"
-                       placeholder="Enter username" name="username" th:errorclass="error-red-bd">
+            <div class="form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                         <span class="fa fa-user"></span>
+                     </span>
+                    <input type="text" th:field="*{username}" class="form-control form-control-lg"
+                           id="inputUsername" name="username" placeholder="Username" th:errorclass="error-red-bd">
+                </div>
                 <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></p>
             </div>
-        </div>
-        <div class="form-group row m-5">
-            <label for="inputPassword" th:field="*{password}" class="col-sm-2 col-form-label-lg font-weight-bold">Password:</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control form-control-lg" th:classappend="${occurredPasswordException} ? 'error-red-bd' "
-                       id="inputPassword" placeholder="Enter password" name="password" th:errorclass="error-red-bd">
+            <div class="form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <span class="fa fa-lock"></span>
+                    </span>
+                    <input type="password" th:field="*{password}" class="form-control form-control-lg"
+                           th:classappend="${occurredPasswordException} ? 'error-red-bd'" id="inputPassword"
+                           placeholder="Enter password" name="password" th:errorclass="error-red-bd">
+                </div>
                 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></p>
             </div>
-        </div>
-        <div class="form-group row m-5 pb-4">
-            <label for="inputConfirmPassword" th:field="*{matchingPassword}"
-                   class="col-sm-2 col-form-label-lg font-weight-bold">Confirm
-                password:</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control form-control-lg mt-3" th:classappend="${occurredPasswordException} ? 'error-red-bd' "
-                       id="inputConfirmPassword" placeholder="Enter password again" name="matchingPassword" th:errorclass="error-red-bd">
-                <p th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" class="error" ></p>
+            <div class="form-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <span class="fa fa-lock"></span>
+                    </span>
+                    <input type="password" th:field="*{matchingPassword}" class="form-control form-control-lg"
+                           th:classappend="${occurredPasswordException} ? 'error-red-bd'" id="inputConfirmPassword"
+                           placeholder="Enter password again" name="matchingPassword" th:errorclass="error-red-bd">
+                </div>
+                <p th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" class="error"></p>
             </div>
-        </div>
-        <div class="form-group row mt-5 justify-content-center">
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary btn-lg mb-2 px-4 font-weight-bold">
-                    <i class="fas fa-user-plus mr-2"></i></i>Create
-                </button>
-            </div>
-            <div class="col-auto">
-                <a th:href="@{/login}" class="btn btn-secondary btn-lg font-weight-bold mb-3 px-4">
-                    <i class="fas fa-chevron-left pr-2"></i> Back
-                </a>
-            </div>
-        </div>
-    </form>
-</div>
 
+            <div class="form-group row btn-div">
+                <div class="col-auto confirm-btn">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-user-plus"></i>Create
+                    </button>
+                </div>
+                <div class="col-auto btn-back">
+                    <a th:href="@{/login}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-chevron-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

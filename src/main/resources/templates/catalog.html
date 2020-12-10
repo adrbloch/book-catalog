@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!--    External css-->
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
 
     <!--    Icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
@@ -19,42 +19,40 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <title>Catalog</title>
-
 </head>
 
 <body>
 <div>
-    <div class="jumbotron text-center text-shadow border border-bottom mb-0">
-        <h1 class="display-2 font-weight-bold">Book catalog</h1>
+    <div class="jumbotron txt-shadow">
+        <h1>Book catalog</h1>
         <h3>Browse your favourite books!</h3>
     </div>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary medium-txt">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary md-txt">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item border-right pr-2 mr-2">
+                <li class="nav-item border-right">
                     <a class="nav-link" th:href="@{/home}">Home </a>
                 </li>
-                <li class="nav-item active border-right pr-2 mr-2">
-                    <a class="nav-link" href="#">Catalog <span class="sr-only">(current)</span> </a>
+                <li class="nav-item active border-right">
+                    <a class="nav-link" th:href="@{/books/catalog}">Catalog <span class="sr-only">(current)</span> </a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item border-left pl-2">
+                <li class="nav-item border-left">
                     <a class="nav-link" th:href="@{/logout}">Sign out</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <table class="table table-striped table-hover mt-4 ml-2 huge-txt">
+    <table class="table table-striped tb-border table-hover big-txt">
         <thead>
         <tr>
             <th>#</th>
             <th>Title</th>
             <th>Author</th>
             <th class="text-center">View / Edit / Delete</th>
-
         </tr>
         </thead>
         <tbody>
@@ -79,12 +77,11 @@
         </tr>
         </tbody>
     </table>
-    <div class="text-center pt-5">
-        <a th:href="@{/books/add}" class="btn btn-primary btn-lg mb-2 px-4 font-weight-bold">
-            <i class="fas fa-plus pr-2"></i>Add book
+    <div class="add-btn">
+        <a th:href="@{/books/add}" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus"></i>Add book
         </a>
     </div>
 </div>
-
 </body>
 </html>
