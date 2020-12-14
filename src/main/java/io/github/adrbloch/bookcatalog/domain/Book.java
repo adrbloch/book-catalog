@@ -2,7 +2,9 @@ package io.github.adrbloch.bookcatalog.domain;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "book")
@@ -25,9 +27,13 @@ public class Book {
     @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @Min(value = 1900, message = "Publication year must be >1900")
-    @Max(value = 2020, message = "Publication year must be <=2020")
+    @Min(value = 1800, message = "Publication year must be >1900")
+    @Max(value = 2021 , message = "Publication year must be <=2021")
     private long publicationYear;
+
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String image;
 
     public Book() {
     }
@@ -79,5 +85,11 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

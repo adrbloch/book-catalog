@@ -47,6 +47,13 @@
             <th scope="row">Publication year:</th>
             <td th:text="*{publicationYear}"/>
         </tr>
+        <tr class="book">
+            <th scope="row">Book image:</th>
+            <td>
+                <img th:src="*{'data:image/jpeg;base64,'+{image}}"
+                     th:onerror="'this.src=\'' + @{/img/imgNotFound.jpg} + '\';'">
+            </td>
+        </tr>
         </tbody>
     </table>
     <div class="col-auto btn-back">

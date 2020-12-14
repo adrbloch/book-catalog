@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -49,7 +50,8 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public String saveBook(@ModelAttribute("book") @Valid Book bookToSave,
+    public String saveBook(@RequestParam("file") MultipartFile file,
+                           @ModelAttribute("book") @Valid Book bookToSave,
                            BindingResult bindingResult,
                            Model model) {
 
@@ -57,8 +59,8 @@ public class BookController {
             return "add";
 
         try {
-            bookService.createBook(bookToSave);
-        } catch (ResourceAlreadyExistsException e){
+            bookService.createBook(file, bookToSave);
+        } catch (ResourceAlreadyExistsException e) {
             model.addAttribute("occurredException", true);
             model.addAttribute("exceptionMessage", e.getMessage());
             return "add";
@@ -67,7 +69,8 @@ public class BookController {
     }
 
     @PostMapping("/save/{id}")
-    public String updateBook(@PathVariable("id") Long id,
+    public String updateBook(@RequestParam("file") MultipartFile file,
+                             @PathVariable("id") Long id,
                              @ModelAttribute("book") @Valid Book bookToUpdate,
                              BindingResult bindingResult,
                              Model model) {
@@ -76,8 +79,8 @@ public class BookController {
             return "edit";
 
         try {
-            bookService.updateBook(id, bookToUpdate);
-        } catch (ResourceAlreadyExistsException e){
+            bookService.updateBook(id, bookToUpdate, file);
+        } catch (ResourceAlreadyExistsException e) {
             model.addAttribute("occurredException", true);
             model.addAttribute("exceptionMessage", e.getMessage());
             return "edit";

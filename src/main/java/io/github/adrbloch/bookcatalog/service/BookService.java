@@ -10,7 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +50,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book createBook(Book book) {
+    public Book createBook(MultipartFile file, Book book) {
         logger.info("Create book...");
 
         Book newBook = new Book();
@@ -58,19 +62,19 @@ public class BookService {
                 .isPresent())
             throw new ResourceAlreadyExistsException("Book already exists!");
 
-        Book preparedBook = prepareBookToProcess(book, newBook, authorName);
+        Book preparedBook = prepareBookToProcess(book, newBook, authorName, file);
 
         return bookRepository.save(preparedBook);
     }
 
-    public Book updateBook(Long id, Book book) {
+    public Book updateBook(Long id, Book book, MultipartFile file) {
         logger.info("Update book with id: {}", id);
         returnBookIfExistsById(id);
 
         Author author = book.getAuthor();
         String authorName = author.getName();
 
-        Book updatedBook = prepareBookToProcess(book, book, authorName);
+        Book updatedBook = prepareBookToProcess(book, book, authorName, file);
 
         Optional<Book> bookByAuthorNameAndTitle = bookRepository
                 .findByAuthorNameAndTitle(updatedBook.getAuthor().getName(), book.getTitle());
@@ -98,11 +102,14 @@ public class BookService {
             logger.info("Book with author: {" + authorName + "} and title:{" + title + "}");
             throw new ResourceNotFoundException("Book with author: {" + authorName + "} and title:{" + title + "}) not found!");
         } else
-            return bookRepository.findByAuthorNameAndTitle(authorName,title).get();
+            return bookRepository.findByAuthorNameAndTitle(authorName, title).get();
     }
 
 
-    Book prepareBookToProcess(Book processingBook, Book bookToSave, String authorName) {
+    Book prepareBookToProcess(Book processingBook,
+                              Book bookToSave,
+                              String authorName,
+                              MultipartFile file) {
 
         try {
             Author authorByName = authorService.getAuthorByName(authorName);
@@ -113,6 +120,7 @@ public class BookService {
             bookToSave.setAuthor(newAuthor);
             authorService.createAuthor(newAuthor);
         }
+
 
         Publisher publisher = processingBook.getPublisher();
         String publisherName = publisher.getName();
@@ -128,12 +136,29 @@ public class BookService {
             publisherService.createPublisher(newPublisher);
         }
 
+
         bookToSave.setTitle(processingBook.getTitle());
         bookToSave.setPublicationYear(processingBook.getPublicationYear());
+
+
+        String fileName = StringUtils
+                .cleanPath(file.getOriginalFilename());
+
+        if (fileName.contains("..")) {
+            logger.error("Not a valid image file: " + fileName);
+        }
+
+        try {
+            bookToSave.setImage(Base64
+                    .getEncoder()
+                    .encodeToString(file.getBytes()));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return bookToSave;
     }
-
-
 }
 
 

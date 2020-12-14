@@ -31,7 +31,7 @@ public class PublisherService {
 
     public Publisher getPublisherByNameAndCity(String name, String city) {
         logger.info("Get Publisher with name: {" + name + "} and city: {" + city + "}");
-        return returnPublisherIfExistsByNameAndAcity(name, city);
+        return returnPublisherIfExistsByNameAndCity(name, city);
     }
 
     public List<Publisher> getAllPublishers() {
@@ -73,7 +73,7 @@ public class PublisherService {
             return publisherById.get();
     }
 
-    Publisher returnPublisherIfExistsByNameAndAcity(String name, String city) {
+    Publisher returnPublisherIfExistsByNameAndCity(String name, String city) {
         if (publisherRepository.findByNameAndCity(name, city).isEmpty()) {
             throw new ResourceNotFoundException("Publisher with name: {" + name + "} and city: {" + city + "} not found!");
         } else

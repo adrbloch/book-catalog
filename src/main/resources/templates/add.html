@@ -22,73 +22,90 @@
 
 </head>
 <body>
-<div class="jumbotron text-center text-shadow">
-    <h1 class="display-2 font-weight-bold">Book catalog</h1>
+<div class="jumbotron txt-shadow">
+    <h1>Book catalog</h1>
     <h3>Browse your favourite books!</h3>
 </div>
 
 
-<div class="container border border-primary px-0  my-5 pt-3">
-    <form action="#" th:action="@{/books/save}" th:object="${book}" method="POST" class="form-horizontal"
-          enctype="multipart/form-data">
-        <h1 class="text-center mt-3"><strong>Create a new book</strong></h1>
+<div class="container">
+    <div class="bordered md-width">
+        <form action="#" th:action="@{/books/save}" th:object="${book}" method="POST" class="form-horizontal"
+              enctype="multipart/form-data">
+            <h1>Create a new book</h1>
 
-        <div class="alert alert-danger error" th:if="${occurredException}">
-            <h2 th:text="${exceptionMessage}" class="error"></h2>
-        </div>
-
-        <div class="form-group row m-5">
-            <label for="inputAuthor" class="col-sm-2 col-form-label-lg font-weight-bold">Author:</label>
-            <div class="col-sm-10 mt-1">
-                <input type="text" th:field="*{author.name}" class="form-control form-control-lg" id="inputAuthor"
-                       placeholder="Enter author" th:errorclass="error-red-bd">
-                <p th:if="${#fields.hasErrors('author.name')}" th:errors="*{author.name}" class="error"></p>
-            </div>
-        </div>
-        <div class="form-group row m-5">
-            <label for="inputTitle" class="col-sm-2 col-form-label-lg font-weight-bold">Title:</label>
-            <div class="col-sm-10">
-                <input type="text" th:field="*{title}" class="form-control form-control-lg" id="inputTitle"
-                       placeholder="Enter title" th:errorclass="error-red-bd">
-                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></p>
-            </div>
-        </div>
-        <div class="form-group row m-5">
-            <label for="inputPublisher" class="col-sm-2 col-form-label-lg font-weight-bold">Publisher:</label>
-            <div class="col-sm-10">
-                <input type="text" th:field="*{publisher.name}" class="form-control form-control-lg mt-1"
-                       id="inputPublisher"
-                       placeholder="Enter publisher name" th:errorclass="error-red-bd">
-                <p th:if="${#fields.hasErrors('publisher.name')}" th:errors="*{publisher.name}" class="error"></p>
-
-                <input type="text" th:field="*{publisher.city} " class="form-control form-control-lg mt-3"
-                       placeholder="Enter publisher city" th:errorclass="error-red-bd">
-                <p th:if="${#fields.hasErrors('publisher.city')}" th:errors="*{publisher.city}" class="error"></p>
+            <div class="alert alert-danger error" th:if="${occurredException}">
+                <h2 th:text="${exceptionMessage}" class="error"></h2>
             </div>
 
-        </div>
-        <div class="form-group row m-5">
-            <label for="inputYear" class="col-sm-2 col-form-label-lg font-weight-bold">Publication year:</label>
-            <div class="col-sm-10 pt-3">
-                <input type="number" th:field="*{publicationYear}" class="form-control form-control-lg" id="inputYear"
-                       placeholder="Enter year of publication" th:errorclass="error-red-bd">
-                <p th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}" class="error"></p>
+            <div class="form-group row">
+                <label for="inputAuthor" class="col-md-2 col-form-label-lg">Author:</label>
+                <div class="col-md-10 mt-1">
+                    <input type="text" th:field="*{author.name}" class="form-control form-control-lg" id="inputAuthor"
+                           placeholder="Enter author" th:errorclass="error-red-bd">
+                    <p th:if="${#fields.hasErrors('author.name')}" th:errors="*{author.name}" class="error"></p>
+                </div>
             </div>
-        </div>
-        <div class="form-group row m-5 pt-4 justify-content-center">
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary btn-lg px-4 font-weight-bold">
-                    <i class="fas fa-plus pr-2"></i>Add book
-                </button>
+            <div class="form-group row">
+                <label for="inputTitle" class="col-md-2 col-form-label-lg">Title:</label>
+                <div class="col-md-10">
+                    <input type="text" th:field="*{title}" class="form-control form-control-lg" id="inputTitle"
+                           placeholder="Enter title" th:errorclass="error-red-bd">
+                    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></p>
+                </div>
             </div>
-            <div class="col-auto">
-                <a th:href="@{/books/catalog}" class="btn btn-secondary btn-lg font-weight-bold mb-3 px-4">
-                    <i class="fas fa-chevron-left pr-2"></i> Back
-                </a>
+            <div class="form-group row">
+                <label for="inputPublisher" class="col-md-2 col-form-label-lg">Publisher:</label>
+                <div class="col-md-10">
+                    <input type="text" th:field="*{publisher.name}" class="form-control form-control-lg mt-1"
+                           id="inputPublisher"
+                           placeholder="Enter publisher name" th:errorclass="error-red-bd">
+                    <p th:if="${#fields.hasErrors('publisher.name')}" th:errors="*{publisher.name}" class="error"></p>
+
+                    <input type="text" th:field="*{publisher.city} " class="form-control form-control-lg mt-3"
+                           placeholder="Enter publisher city" th:errorclass="error-red-bd">
+                    <p th:if="${#fields.hasErrors('publisher.city')}" th:errors="*{publisher.city}" class="error"></p>
+                </div>
+
             </div>
-        </div>
-    </form>
+            <div class="form-group row">
+                <label for="inputYear" class="col-md-2 col-form-label-lg">Publication year:</label>
+                <div class="col-md-5 pt-3 mx-auto">
+                    <input type="number" th:field="*{publicationYear}" class="form-control form-control-lg"
+                           id="inputYear" placeholder="Enter year of publication" th:errorclass="error-red-bd">
+                    <p th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}" class="error"></p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label-lg">Book cover image:</label>
+                <div class="search-file-div">
+                    <label class="btn search-file-btn">
+                        <input name="file" type="file" accept="image/*">
+                        <i class="fas fa-upload fa-lg"></i>
+                        <span>Choose file...</span>
+                    </label>
+                    <span>No file selected</span>
+                </div>
+            </div>
+
+            <div class="form-group row btn-div">
+                <div class="col-auto confirm-btn">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus"></i>Add book
+                    </button>
+                </div>
+                <div class="col-auto btn-back">
+                    <a th:href="@{/books/catalog}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-chevron-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+<script type="text/javascript" th:src="@{/js/bookImgProcessScript.js}"></script>
 
 </body>
 </html>
