@@ -37,6 +37,7 @@ public class UserController {
 
     @GetMapping("/registration")
     public String addUserForm(Model model) {
+
         User newUser = new User();
         model.addAttribute("user", newUser);
 
@@ -53,10 +54,12 @@ public class UserController {
 
         try {
             userService.createUser(userToSave);
+
         } catch (ResourceAlreadyExistsException e) {
             model.addAttribute("occurredUserException", true);
             model.addAttribute("exceptionUserMessage", e.getMessage());
             return "registration";
+
         } catch (FieldsNotMatchException e){
             model.addAttribute("occurredPasswordException", true);
             model.addAttribute("exceptionPasswordMessage", e.getMessage());

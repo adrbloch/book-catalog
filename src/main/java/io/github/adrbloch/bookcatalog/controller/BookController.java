@@ -27,25 +27,32 @@ public class BookController {
     @GetMapping("/catalog")
     public String viewAll(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
+
         return "catalog";
     }
 
     @GetMapping("/{id}")
     public String viewBook(@PathVariable("id") Long id, Model model) {
         model.addAttribute("book", bookService.getBookById(id));
+
         return "book";
     }
 
     @GetMapping("/add")
     public String addBookForm(Model model) {
+
         Book newBook = new Book();
         model.addAttribute("book", newBook);
+
         return "add";
     }
 
     @GetMapping("/edit/{id}")
     public String editBookForm(@PathVariable("id") Long id, Model model) {
+
         model.addAttribute("book", bookService.getBookById(id));
+        model.addAttribute("image", bookService.getBookById(id).getImage());
+
         return "edit";
     }
 
@@ -60,6 +67,7 @@ public class BookController {
 
         try {
             bookService.createBook(file, bookToSave);
+
         } catch (ResourceAlreadyExistsException e) {
             model.addAttribute("occurredException", true);
             model.addAttribute("exceptionMessage", e.getMessage());
@@ -75,14 +83,18 @@ public class BookController {
                              BindingResult bindingResult,
                              Model model) {
 
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("image", bookService.getBookById(id).getImage());
             return "edit";
+        }
 
         try {
             bookService.updateBook(id, bookToUpdate, file);
+
         } catch (ResourceAlreadyExistsException e) {
             model.addAttribute("occurredException", true);
             model.addAttribute("exceptionMessage", e.getMessage());
+            model.addAttribute("image", bookService.getBookById(id).getImage());
             return "edit";
         }
         return "redirect:/books/catalog";
@@ -91,8 +103,8 @@ public class BookController {
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
         bookService.deleteBookById(id);
+
         return "redirect:/books/catalog";
     }
 
 }
-

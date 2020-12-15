@@ -82,7 +82,7 @@
             <div class="form-group row book">
                 <label class="col-md-2 col-form-label-lg">Book cover image:</label>
                 <div class="col md-8 search-file-div">
-                    <img th:src="*{'data:image/jpeg;base64,'+{image}}"
+                    <img th:src="${'data:image/jpeg;base64,'+{image}}" alt="Book image"
                          th:onerror="'this.src=\'' + @{/img/imgNotFound.jpg} + '\';'" id="bookImg">
                     <div>
                         <label class="btn search-file-btn">

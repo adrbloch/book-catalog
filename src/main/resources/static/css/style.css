@@ -9,8 +9,12 @@
 }
 
 .jumbotron > h1 {
-    font-size: 5.5rem;
+    font-size: calc(48px + 2vw);
     font-weight: bold;
+}
+
+.jumbotron > h3 {
+    font-size: calc(18px + 0.5vw);
 }
 
 .container {
@@ -78,6 +82,7 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     margin-bottom: .5rem;
+    font-size: calc(10px + 0.5vw);
 }
 
 .add-btn > a > i {
@@ -96,12 +101,11 @@ label {
 }
 
 .md-txt {
-    font-size: 1.2rem;
+    font-size: calc(10px + 0.5vw);
 }
 
 .big-txt {
-    font-size: 1.5rem;
-
+    font-size: calc(15px + 0.5vw);
 }
 
 .table-lg-mrg-padd {
@@ -170,18 +174,19 @@ form > h1 {
 
 .home-head {
     margin-top: 5rem;
-    align-items: center;
     text-align: center;
 }
 
-.home-head > div {
-    margin-left: auto;
-    margin-right: auto;
+
+.home-head > h1 {
+    margin-bottom: .25rem;
+    font-size: calc(22px + 2vw);
+    font-weight: 400;
 }
 
-.home-head > div > h1 {
+.home-head > p {
     margin-bottom: .25rem;
-    font-size: 3.5rem;
+    font-size: calc(11px + 0.5vw);
     font-weight: 400;
 }
 
@@ -251,18 +256,18 @@ input, input::placeholder {
     margin-bottom: auto;
 }
 
-.book > th, .book > label {
+.book > th {
     vertical-align: middle !important;
 }
 
 .book > td {
     padding-top: 3rem !important;
-
 }
 
 .book > label {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .book > td > img, .book > div > img {
@@ -272,4 +277,12 @@ input, input::placeholder {
 
 .book > div > div {
     margin-top: 1.5rem;
+}
+
+.navbar-nav {
+    display: inline-block !important;
+}
+
+.navbar-nav li {
+    display: inline-block !important;
 }

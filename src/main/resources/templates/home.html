@@ -24,7 +24,11 @@
     <h3>Browse your favourite books!</h3>
 </div>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-primary md-txt">
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary md-txt">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active border-right">
@@ -42,11 +46,9 @@
     </div>
 </nav>
 <div class="home-head">
-    <div class="col-8">
-        <h1>Welcome <span style="color:green" sec:authentication="name"></span> to our library!</h1>
-        <br>
-        <p class="md-txt">Go to the catalog to view and modify your collection of books.</p>
-    </div>
+    <h1>Welcome <span style="color:green" sec:authentication="name"></span> to our library!</h1>
+    <br>
+    <p>Go to the catalog to view and modify your collection of books.</p>
 </div>
 </body>
 </html>

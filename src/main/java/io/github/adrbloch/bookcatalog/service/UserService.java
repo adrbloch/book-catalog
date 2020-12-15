@@ -30,21 +30,25 @@ public class UserService {
 
     public User getUserById(Long id) {
         logger.info("Get user with id: {}", id);
+
         return returnUserIfExistsById(id);
     }
 
     public User getUserByName(String username) {
         logger.info("Get user with username: {}", username);
+
         return returnUserIfExistsByUsername(username);
     }
 
     public List<User> getAllUsers() {
         logger.info("Get all users");
+
         return userRepository.findAll();
     }
 
     public User createUser(User newUser) {
         logger.info("Create user...");
+
         if (userRepository.findByUsername(newUser.getUsername()).isPresent())
             throw new ResourceAlreadyExistsException("User already exists!");
 
@@ -67,12 +71,14 @@ public class UserService {
 
     public User deleteUserById(Long id) {
         logger.warn("Delete user with id: {}", id);
+
         User userToDelete = returnUserIfExistsById(id);
         userRepository.deleteById(id);
         return userToDelete;
     }
 
     User returnUserIfExistsById(Long id) {
+
         Optional<User> userById = userRepository.findById(id);
         if (userById.isEmpty()) {
             throw new ResourceNotFoundException("User with id: {" + id + "} not found!");
@@ -81,6 +87,7 @@ public class UserService {
     }
 
     User returnUserIfExistsByUsername(String username) {
+
         Optional<User> userByName = userRepository.findByUsername(username);
         if (userByName.isEmpty()) {
             throw new ResourceNotFoundException("User with username: {" + username + "} not found!");
