@@ -3,7 +3,6 @@ package io.github.adrbloch.bookcatalog;
 import io.github.adrbloch.bookcatalog.domain.Author;
 import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.domain.Publisher;
-import io.github.adrbloch.bookcatalog.domain.User;
 import io.github.adrbloch.bookcatalog.service.BookService;
 import io.github.adrbloch.bookcatalog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +56,11 @@ public class DataLoader implements CommandLineRunner {
         MultipartFile hpDeathHallMultipartFile = new MockMultipartFile("harryPotterDeathlyHallows.jpg", new FileInputStream(hpDeathHallFile));
         MultipartFile metroMultipartFile = new MockMultipartFile("metro.jpg", new FileInputStream(metroFile));
 
-        bookService.createBook(lotrMultipartFile, lotrBook);
-        bookService.createBook(hobbitMultipartFile, hobbitBook);
-        bookService.createBook(hprPhilStoneMultipartFile, hpPhilStoneBook);
-        bookService.createBook(hpDeathHallMultipartFile, hpDeathHallBook);
-        bookService.createBook(metroMultipartFile, metroBook);
+        bookService.createBook(lotrBook, lotrMultipartFile);
+        bookService.createBook(hobbitBook, hobbitMultipartFile);
+        bookService.createBook(hpPhilStoneBook, hprPhilStoneMultipartFile);
+        bookService.createBook(hpDeathHallBook, hpDeathHallMultipartFile);
+        bookService.createBook(metroBook, metroMultipartFile);
 
-        User user = new User("a", "a", "a");
-        userService.createUser(user);
     }
-
 }

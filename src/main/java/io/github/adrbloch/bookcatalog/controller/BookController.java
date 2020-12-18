@@ -66,7 +66,7 @@ public class BookController {
             return "add";
 
         try {
-            bookService.createBook(file, bookToSave);
+            bookService.createBook(bookToSave, file);
 
         } catch (ResourceAlreadyExistsException e) {
             model.addAttribute("occurredException", true);

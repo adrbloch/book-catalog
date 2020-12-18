@@ -53,7 +53,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book createBook(MultipartFile file, Book book) {
+    public Book createBook(Book book, MultipartFile file) {
         logger.info("Create book...");
 
         Book newBook = new Book();
@@ -70,26 +70,26 @@ public class BookService {
         return bookRepository.save(preparedBook);
     }
 
-    public Book updateBook(Long id, Book bookToUpdate, MultipartFile file) {
+    public Book updateBook(Long id, Book newBook, MultipartFile file) {
         logger.info("Update book with id: {}", id);
 
-        Book updatingBook = returnBookIfExistsById(id);
+        Book oldBook = returnBookIfExistsById(id);
 
-        Author author = bookToUpdate.getAuthor();
+        Author author = newBook.getAuthor();
         String authorName = author.getName();
 
-        Book updatedBook = prepareBookToProcess(bookToUpdate, updatingBook, authorName, file);
+        newBook = prepareBookToProcess(newBook, oldBook, authorName, file);
 
         Optional<Book> bookByAuthorNameAndTitle = bookRepository
                 .findByAuthorNameAndTitle(
-                        updatedBook.getAuthor().getName(),
-                        bookToUpdate.getTitle());
+                        newBook.getAuthor().getName(),
+                        newBook.getTitle());
 
         if (bookByAuthorNameAndTitle.isPresent()
                 && (!id.equals(bookByAuthorNameAndTitle.get().getId())))
             throw new ResourceAlreadyExistsException("Book already exists!");
 
-        return bookRepository.save(updatedBook);
+        return bookRepository.save(newBook);
     }
 
     public Book deleteBookById(Long id) {
@@ -125,6 +125,19 @@ public class BookService {
                               String authorName,
                               MultipartFile file) {
 
+        setBookAuthorFromDBorCreateNewIfNotExists(bookToSave, authorName);
+        setBookPublisherFromDBorCreateNewIfNotExists(processingBook, bookToSave);
+
+        bookToSave.setTitle(processingBook.getTitle());
+        bookToSave.setPublicationYear(processingBook.getPublicationYear());
+
+        setBookImageIfNotEmpty(bookToSave, file);
+
+        return bookToSave;
+    }
+
+    private void setBookAuthorFromDBorCreateNewIfNotExists(Book bookToSave, String authorName) {
+
         try {
             Author authorByName = authorService.getAuthorByName(authorName);
             bookToSave.setAuthor(authorByName);
@@ -134,7 +147,9 @@ public class BookService {
             bookToSave.setAuthor(newAuthor);
             authorService.createAuthor(newAuthor);
         }
+    }
 
+    private void setBookPublisherFromDBorCreateNewIfNotExists(Book processingBook, Book bookToSave) {
 
         Publisher publisher = processingBook.getPublisher();
         String publisherName = publisher.getName();
@@ -149,12 +164,9 @@ public class BookService {
             bookToSave.setPublisher(newPublisher);
             publisherService.createPublisher(newPublisher);
         }
+    }
 
-
-        bookToSave.setTitle(processingBook.getTitle());
-        bookToSave.setPublicationYear(processingBook.getPublicationYear());
-
-
+    private void setBookImageIfNotEmpty(Book bookToSave, MultipartFile file) {
         String fileName = StringUtils
                 .cleanPath(file.getOriginalFilename());
 
@@ -172,7 +184,5 @@ public class BookService {
                 e.printStackTrace();
             }
         }
-
-        return bookToSave;
     }
 }

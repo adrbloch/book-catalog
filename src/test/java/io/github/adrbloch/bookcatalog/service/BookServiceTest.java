@@ -6,17 +6,25 @@ import io.github.adrbloch.bookcatalog.domain.Publisher;
 import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.BookRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
@@ -30,45 +38,53 @@ class BookServiceTest {
     @InjectMocks
     BookService bookService;
 
+    MultipartFile bookImgMultipartFile;
+    Book book;
 
-    private Book initializeBook() {
+
+    @BeforeEach
+    void initializeBook() throws IOException {
+
+        File bookImgFile = new File("src/test/resources/static/img/bookCover/witcher.jpg");
+        bookImgMultipartFile = new MockMultipartFile("witcher.jpg", new FileInputStream(bookImgFile));
 
         Author author = new Author("Andrzej Sapkowski");
         Publisher publisher = new Publisher("SuperNowa", "Warsaw");
-        Book book = new Book(author, "The Witcher", publisher, 1990);
+        book = new Book(author, "The Witcher", publisher, 1990);
         book.setId(1L);
 
-        return book;
+        book.setImage(Base64
+                .getEncoder()
+                .encodeToString(bookImgMultipartFile.getBytes()));
     }
 
     @Test
     void createAlreadyExistingBookThrowsException() {
 
         //given
-        Book book = initializeBook();
         given(bookRepository.findByAuthorNameAndTitle(book.getAuthor().getName(), book.getTitle()))
                 .willReturn(Optional.of(book));
 
         //when
         //then
-        assertThrows(ResourceAlreadyExistsException.class, () -> bookService.createBook(book));
+        assertThrows(ResourceAlreadyExistsException.class, () -> bookService.createBook(book, bookImgMultipartFile));
     }
 
     @Test
     void returnBookAfterCreate() {
 
         //given
-        Book book = initializeBook();
         Author author = book.getAuthor();
         String authorName = author.getName();
         Publisher publisher = book.getPublisher();
+
         given(authorService.getAuthorByName(authorName)).willReturn(author);
         given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
                 .willReturn(publisher);
         given(bookRepository.save(any(Book.class))).willReturn(book);
 
         //when
-        Book createdBook = bookService.createBook(book);
+        Book createdBook = bookService.createBook(book, bookImgMultipartFile);
 
         //then
         assertEquals(1L, createdBook.getId());
@@ -77,47 +93,58 @@ class BookServiceTest {
         assertEquals("Warsaw", createdBook.getPublisher().getCity());
         assertEquals("The Witcher", createdBook.getTitle());
         assertEquals(1990, createdBook.getPublicationYear());
+        assertNotNull(createdBook.getImage());
     }
 
     @Test
-    void ifTryToUpdateToAlreadyExistingBookWithDifferentIdThrowException() {
+    void ifTryToUpdateToAlreadyExistingBookThrowException() {
 
         //given
-        Book book = initializeBook();
-        Book book2 = initializeBook();
-        book2.setId(2L);
         Author author = book.getAuthor();
+        String title = book.getTitle();
         Publisher publisher = book.getPublisher();
-        given(bookRepository
-                .findByAuthorNameAndTitle(author.getName(), book.getTitle())).willReturn(Optional.of(book2));
-        given(bookRepository.findById(book.getId())).willReturn(Optional.of(book));
-        given(authorService.getAuthorByName(author.getName())).willReturn(author);
-        given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
+        long publicationYear = book.getPublicationYear();
+
+        Book newBook = new Book(author, title, publisher, publicationYear);
+        newBook.setId(2L);
+
+        String authorName = newBook.getAuthor().getName();
+        String publisherName = newBook.getPublisher().getName();
+        String publisherCity = newBook.getPublisher().getCity();
+
+        given(bookRepository.findById(newBook.getId())).willReturn(Optional.of(newBook));
+        given(authorService.getAuthorByName(authorName)).willReturn(author);
+        given(publisherService.getPublisherByNameAndCity(publisherName, publisherCity))
                 .willReturn(publisher);
+        given(bookRepository
+                .findByAuthorNameAndTitle(authorName, newBook.getTitle()))
+                .willReturn(Optional.of(book));
 
         //when
         //then
-        assertThrows(ResourceAlreadyExistsException.class, () -> bookService.updateBook(1L, book));
+        assertThrows(ResourceAlreadyExistsException.class, () ->
+                bookService.updateBook(2L, newBook, bookImgMultipartFile));
     }
 
     @Test
-    void returnBookAfterUpdate() {
+    void updateBookWithNoChangesReturnsSameBook() {
 
         //given
-        Book book = initializeBook();
         Author author = book.getAuthor();
         Publisher publisher = book.getPublisher();
+
         given(authorService.getAuthorByName(author.getName())).willReturn(author);
         given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
                 .willReturn(publisher);
         given(bookRepository
-                .findByAuthorNameAndTitle(author.getName(), book.getTitle())).willReturn(Optional.of(book));
+                .findByAuthorNameAndTitle(author.getName(), book.getTitle()))
+                .willReturn(Optional.of(book));
         given(bookRepository.findById(book.getId())).willReturn(Optional.of(book));
         given(bookRepository.save(book)).willReturn(book);
 
 
         //when
-        Book updatedBook = bookService.updateBook(1L, book);
+        Book updatedBook = bookService.updateBook(1L, book, bookImgMultipartFile);
 
         //then
         assertEquals(1L, updatedBook.getId());
@@ -126,13 +153,49 @@ class BookServiceTest {
         assertEquals("Warsaw", updatedBook.getPublisher().getCity());
         assertEquals("The Witcher", updatedBook.getTitle());
         assertEquals(1990, updatedBook.getPublicationYear());
+        assertNotNull(updatedBook.getImage());
+    }
+
+    @Test
+    void returnBookAfterUpdate() {
+
+        //given
+        Book newBook = book;
+        newBook.setAuthor(new Author("Dmitrij Gluchowski"));
+        newBook.setTitle("Metro 2033");
+        newBook.setPublisher(new Publisher("Insignis Media", "Cracow"));
+        newBook.setPublicationYear(2010);
+
+        Author author = newBook.getAuthor();
+        Publisher publisher = newBook.getPublisher();
+
+        given(authorService.getAuthorByName(author.getName())).willReturn(author);
+        given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
+                .willReturn(publisher);
+        given(bookRepository
+                .findByAuthorNameAndTitle(author.getName(), newBook.getTitle()))
+                .willReturn(Optional.of(book));
+        given(bookRepository.findById(book.getId())).willReturn(Optional.of(book));
+        given(bookRepository.save(newBook)).willReturn(newBook);
+
+
+        //when
+        Book updatedBook = bookService.updateBook(1L, newBook, bookImgMultipartFile);
+
+        //then
+        assertEquals(1L, updatedBook.getId());
+        assertEquals("Dmitrij Gluchowski", updatedBook.getAuthor().getName());
+        assertEquals("Insignis Media", updatedBook.getPublisher().getName());
+        assertEquals("Cracow", updatedBook.getPublisher().getCity());
+        assertEquals("Metro 2033", updatedBook.getTitle());
+        assertEquals(2010, updatedBook.getPublicationYear());
+        assertNotNull(updatedBook.getImage());
     }
 
     @Test
     void returnBookAfterDeleteById() {
 
         //given
-        Book book = initializeBook();
         Long id = book.getId();
         given(bookRepository.findById(id)).willReturn(Optional.of(book));
 
@@ -146,6 +209,7 @@ class BookServiceTest {
         assertEquals("Warsaw", deletedBook.getPublisher().getCity());
         assertEquals("The Witcher", deletedBook.getTitle());
         assertEquals(1990, deletedBook.getPublicationYear());
+        assertNotNull(deletedBook.getImage());
     }
 
 
@@ -153,7 +217,6 @@ class BookServiceTest {
     void ifBookNotExistsByIdThrowException() {
 
         //given
-        Book book = new Book();
         Long id = book.getId();
         given(bookRepository.findById(id)).willReturn(Optional.empty());
 
@@ -166,7 +229,6 @@ class BookServiceTest {
     void returnBookIfExistsById() {
 
         //given
-        Book book = initializeBook();
         Long id = book.getId();
         given(bookRepository.findById(id)).willReturn(Optional.of(book));
 
@@ -180,16 +242,17 @@ class BookServiceTest {
         assertEquals("Warsaw", checkedBook.getPublisher().getCity());
         assertEquals("The Witcher", checkedBook.getTitle());
         assertEquals(1990, checkedBook.getPublicationYear());
+        assertNotNull(checkedBook.getImage());
     }
 
     @Test
-    void ifnBookNotExistsByAuthorNameAndTitleThrowException() {
+    void ifBookNotExistsByAuthorNameAndTitleThrowException() {
 
         //given
-        Book book = initializeBook();
         String authorName = book.getAuthor().getName();
         String bookTitle = book.getTitle();
-        given(bookRepository.findByAuthorNameAndTitle(authorName, bookTitle)).willReturn(Optional.empty());
+        given(bookRepository.findByAuthorNameAndTitle(authorName, bookTitle))
+                .willReturn(Optional.empty());
 
         //when
         //then
@@ -201,13 +264,13 @@ class BookServiceTest {
     void returnPublisherIfExistsByNameAndCity() {
 
         //given
-        Book book = initializeBook();
         String authorName = book.getAuthor().getName();
         String bookTitle = book.getTitle();
         given(bookRepository.findByAuthorNameAndTitle(authorName, bookTitle)).willReturn(Optional.of(book));
 
         //when
-        Book checkedBook = bookService.returnBookIfExistsByAuthorNameAndTitle(authorName, bookTitle);
+        Book checkedBook = bookService
+                .returnBookIfExistsByAuthorNameAndTitle(authorName, bookTitle);
 
         //then
         assertEquals("Andrzej Sapkowski", checkedBook.getAuthor().getName());
@@ -215,6 +278,7 @@ class BookServiceTest {
         assertEquals("Warsaw", checkedBook.getPublisher().getCity());
         assertEquals("The Witcher", checkedBook.getTitle());
         assertEquals(1990, checkedBook.getPublicationYear());
+        assertNotNull(checkedBook.getImage());
     }
 
 
@@ -222,15 +286,17 @@ class BookServiceTest {
     void prepareBookToProcessMethodReturnsThatBookWhenAuthorNotExistsAndPublisherExists() {
 
         //given
-        Book book = initializeBook();
         String authorName = book.getAuthor().getName();
         Publisher publisher = book.getPublisher();
-        given(authorService.getAuthorByName(authorName)).willThrow(ResourceNotFoundException.class);
+
+        given(authorService.getAuthorByName(authorName))
+                .willThrow(ResourceNotFoundException.class);
         given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
                 .willReturn(publisher);
 
         //when
-        Book preparedBook = bookService.prepareBookToProcess(book, book, authorName);
+        Book preparedBook = bookService
+                .prepareBookToProcess(book, book, authorName, bookImgMultipartFile);
 
         //then
         assertEquals("Andrzej Sapkowski", preparedBook.getAuthor().getName());
@@ -238,22 +304,23 @@ class BookServiceTest {
         assertEquals("Warsaw", preparedBook.getPublisher().getCity());
         assertEquals("The Witcher", preparedBook.getTitle());
         assertEquals(1990, preparedBook.getPublicationYear());
+        assertNotNull(preparedBook.getImage());
     }
 
     @Test
     void prepareBookToProcessMethodReturnsThatBookWhenAuthorAndPublisherExist() {
 
         //given
-        Book book = initializeBook();
         Author author = book.getAuthor();
         String authorName = author.getName();
         Publisher publisher = book.getPublisher();
+
         given(authorService.getAuthorByName(authorName)).willReturn(author);
         given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
                 .willReturn(publisher);
 
         //when
-        Book preparedBook = bookService.prepareBookToProcess(book, book, authorName);
+        Book preparedBook = bookService.prepareBookToProcess(book, book, authorName, bookImgMultipartFile);
 
         //then
         assertEquals("Andrzej Sapkowski", preparedBook.getAuthor().getName());
@@ -261,22 +328,24 @@ class BookServiceTest {
         assertEquals("Warsaw", preparedBook.getPublisher().getCity());
         assertEquals("The Witcher", preparedBook.getTitle());
         assertEquals(1990, preparedBook.getPublicationYear());
+        assertNotNull(preparedBook.getImage());
     }
 
     @Test
     void prepareBookToProcessMethodReturnsThatBookWhenAuthorAndPublisherNotExist() {
 
         //given
-        Book book = initializeBook();
         Author author = book.getAuthor();
         String authorName = author.getName();
         Publisher publisher = book.getPublisher();
-        given(authorService.getAuthorByName(authorName)).willThrow(ResourceNotFoundException.class);
+
+        given(authorService.getAuthorByName(authorName))
+                .willThrow(ResourceNotFoundException.class);
         given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
                 .willThrow(ResourceNotFoundException.class);
 
         //when
-        Book preparedBook = bookService.prepareBookToProcess(book, book, authorName);
+        Book preparedBook = bookService.prepareBookToProcess(book, book, authorName, bookImgMultipartFile);
 
         //then
         assertEquals("Andrzej Sapkowski", preparedBook.getAuthor().getName());
@@ -284,22 +353,26 @@ class BookServiceTest {
         assertEquals("Warsaw", preparedBook.getPublisher().getCity());
         assertEquals("The Witcher", preparedBook.getTitle());
         assertEquals(1990, preparedBook.getPublicationYear());
+        assertNotNull(preparedBook.getImage());
     }
 
     @Test
     void prepareBookToProcessMethodReturnsThatBookWhenAuthorNotExistAndPublisherExist() {
 
         //given
-        Book book = initializeBook();
         Author author = book.getAuthor();
         String authorName = author.getName();
         Publisher publisher = book.getPublisher();
-        given(authorService.getAuthorByName(authorName)).willThrow(ResourceNotFoundException.class);
-        given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
+
+        given(authorService.getAuthorByName(authorName))
+                .willThrow(ResourceNotFoundException.class);
+        given(publisherService
+                .getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
                 .willReturn(publisher);
 
         //when
-        Book preparedBook = bookService.prepareBookToProcess(book, book, authorName);
+        Book preparedBook = bookService
+                .prepareBookToProcess(book, book, authorName, bookImgMultipartFile);
 
         //then
         assertEquals("Andrzej Sapkowski", preparedBook.getAuthor().getName());
@@ -307,6 +380,107 @@ class BookServiceTest {
         assertEquals("Warsaw", preparedBook.getPublisher().getCity());
         assertEquals("The Witcher", preparedBook.getTitle());
         assertEquals(1990, preparedBook.getPublicationYear());
+        assertNotNull(preparedBook.getImage());
     }
 
+
+    @Test
+    void createBookWithNoImageReturnsThatBookWithEmptyImage() {
+
+        //given
+        final MultipartFile mockFile = mock(MultipartFile.class);
+        Author author = new Author("Andrzej Sapkowski");
+        Publisher publisher = new Publisher("SuperNowa", "Warsaw");
+        Book book = new Book(author, "The Witcher", publisher, 1990);
+        book.setId(1L);
+
+
+        given(mockFile.getOriginalFilename()).willReturn("");
+        given(mockFile.isEmpty()).willReturn(true);
+        given(authorService.getAuthorByName(author.getName())).willReturn(author);
+        given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
+                .willReturn(publisher);
+        given(bookRepository.save(any(Book.class))).willReturn(book);
+
+        //when
+        Book createdBook = bookService.createBook(book, mockFile);
+
+        //then
+        assertEquals(1L, createdBook.getId());
+        assertEquals("Andrzej Sapkowski", createdBook.getAuthor().getName());
+        assertEquals("SuperNowa", createdBook.getPublisher().getName());
+        assertEquals("Warsaw", createdBook.getPublisher().getCity());
+        assertEquals("The Witcher", createdBook.getTitle());
+        assertEquals(1990, createdBook.getPublicationYear());
+        assertNull(createdBook.getImage());
+    }
+
+
+    @Test
+    void updateBookWithNotImageChangeReturnsBookWithSameImage() throws IOException {
+
+        //given
+        Author author = new Author("Dmitrij Gluchowski");
+        Publisher publisher = new Publisher("Insignis Media", "Cracow");
+        Book newBook = new Book(author, "Metro 2033", publisher, 2010);
+        newBook.setId(1L);
+        newBook.setImage(Base64.getEncoder()
+                .encodeToString(bookImgMultipartFile.getBytes()));
+
+        given(authorService.getAuthorByName(author.getName())).willReturn(author);
+        given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
+                .willReturn(publisher);
+        given(bookRepository
+                .findByAuthorNameAndTitle(author.getName(), newBook.getTitle()))
+                .willReturn(Optional.of(book));
+        given(bookRepository.findById(book.getId())).willReturn(Optional.of(book));
+        given(bookRepository.save(book)).willReturn(book);
+
+
+        //when
+        Book updatedBook = bookService.updateBook(1L, newBook, bookImgMultipartFile);
+
+        //then
+        assertEquals(1L, updatedBook.getId());
+        assertEquals("Dmitrij Gluchowski", updatedBook.getAuthor().getName());
+        assertEquals("Insignis Media", updatedBook.getPublisher().getName());
+        assertEquals("Cracow", updatedBook.getPublisher().getCity());
+        assertEquals("Metro 2033", updatedBook.getTitle());
+        assertEquals(2010, updatedBook.getPublicationYear());
+        assertEquals(updatedBook.getImage(), book.getImage());
+    }
+
+    @Test
+    void updateToBookWithDifferentImageReturnsBookWithChangedImage() throws IOException {
+
+        //given
+        File newBookImgFile = new File("src/test/resources/static/img/bookCover/metro.jpg");
+        MockMultipartFile newBookImgMultipartFile = new MockMultipartFile("metro.jpg", new FileInputStream(newBookImgFile));
+        Author author = book.getAuthor();
+        Publisher publisher = book.getPublisher();
+        String oldImage = book.getImage();
+
+        given(authorService.getAuthorByName(author.getName())).willReturn(author);
+        given(publisherService.getPublisherByNameAndCity(publisher.getName(), publisher.getCity()))
+                .willReturn(publisher);
+        given(bookRepository
+                .findByAuthorNameAndTitle(author.getName(), book.getTitle()))
+                .willReturn(Optional.of(book));
+        given(bookRepository.findById(book.getId())).willReturn(Optional.of(book));
+        given(bookRepository.save(book)).willReturn(book);
+
+
+        //when
+        Book updatedBook = bookService.updateBook(1L, book, newBookImgMultipartFile);
+
+        //then
+        assertEquals(1L, updatedBook.getId());
+        assertEquals("Andrzej Sapkowski", updatedBook.getAuthor().getName());
+        assertEquals("SuperNowa", updatedBook.getPublisher().getName());
+        assertEquals("Warsaw", updatedBook.getPublisher().getCity());
+        assertEquals("The Witcher", updatedBook.getTitle());
+        assertEquals(1990, updatedBook.getPublicationYear());
+        assertNotNull(updatedBook.getImage());
+        assertNotEquals(updatedBook.getImage(), oldImage);
+    }
 }

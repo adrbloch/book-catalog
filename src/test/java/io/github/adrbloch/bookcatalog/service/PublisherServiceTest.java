@@ -138,7 +138,7 @@ class PublisherServiceTest {
         //when
         //then
         assertThrows(ResourceNotFoundException.class, () -> publisherService
-                .returnPublisherIfExistsByNameAndAcity(publisherName, publisherCity));
+                .returnPublisherIfExistsByNameAndCity(publisherName, publisherCity));
     }
 
     @Test
@@ -151,7 +151,7 @@ class PublisherServiceTest {
         given(publisherRepository.findByNameAndCity(publisherName, publisherCity)).willReturn(Optional.of(publisher));
 
         //when
-        Publisher checkedPublisher = publisherService.returnPublisherIfExistsByNameAndAcity(publisherName, publisherCity);
+        Publisher checkedPublisher = publisherService.returnPublisherIfExistsByNameAndCity(publisherName, publisherCity);
 
         //then
         assertEquals(1L, checkedPublisher.getId());
