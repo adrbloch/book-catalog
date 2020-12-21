@@ -1,6 +1,8 @@
 # book-catalog
 Web application for book collection management.
 
+Application presentation: https://youtu.be/1SKyccI9UPs
+
 ## Table of contents
 * [Features](#features)
 * [Screenshots](#screenshots)
@@ -9,25 +11,30 @@ Web application for book collection management.
 
 ## Features
 * login and user registration 
-* create a new book (contains an author, title, publisher and publication year)
+* create a new book (contains:
+    - an author,
+    - title, 
+    - publisher, 
+    - publication year,
+    - book cover image)
 * view collection of books from Database
 * view details of selected book
 * edit selected book
-* delete specific book
+* delete chosen book
 * validate if:
-    - input fields are empty
-    - book, user already exist in database
+    - input fields are not empty
+    - book / user already exist in Database
     - username, password are correct
 
 ## Screenshots
-![screenshot](readme-img/screenshot1.png) <br/><br/>
-![screenshot](readme-img/screenshot2.png) <br/><br/>
-![screenshot](readme-img/screenshot3.png) <br/><br/>
-![screenshot](readme-img/screenshot4.png) <br/><br/>
-![screenshot](readme-img/screenshot5.png) <br/><br/>
-![screenshot](readme-img/screenshot6.png) <br/><br/>
-![screenshot](readme-img/screenshot7.png) <br/><br/>
-![screenshot](readme-img/screenshot8.png) 
+![screenshot](readme-img/login.png) <br/><br/>
+![screenshot](readme-img/registration.png) <br/><br/>
+![screenshot](readme-img/home.png) <br/><br/>
+![screenshot](readme-img/catalog.png) <br/><br/>
+![screenshot](readme-img/add.png) <br/><br/>
+![screenshot](readme-img/book.png) <br/><br/>
+![screenshot](readme-img/edit.png) <br/><br/>
+![screenshot](readme-img/logout.png) 
 
 ## Technologies
 * Java - v11
