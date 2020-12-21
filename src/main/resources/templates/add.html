@@ -1,32 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!--    External css-->
-    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
-
-    <!--    Icons-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
-    <!--    Bootrstrap-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
+    <th:block th:insert="head :: headCode"></th:block>
     <title>Add book</title>
-
 </head>
+
 <body>
 <div class="jumbotron txt-shadow">
     <h1>Book catalog</h1>
     <h3>Browse your favourite books!</h3>
 </div>
-
 
 <div class="container">
     <div class="bordered md-width">
@@ -35,7 +19,7 @@
             <h1>Create a new book</h1>
 
             <div class="alert alert-danger error" th:if="${occurredException}">
-                <h2 th:text="${exceptionMessage}" class="error"></h2>
+                <h4 th:text="${exceptionMessage}" class="error"></h4>
             </div>
 
             <div class="form-group row">
