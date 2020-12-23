@@ -4,7 +4,6 @@ import io.github.adrbloch.bookcatalog.domain.Author;
 import io.github.adrbloch.bookcatalog.domain.Book;
 import io.github.adrbloch.bookcatalog.domain.Publisher;
 import io.github.adrbloch.bookcatalog.service.BookService;
-import io.github.adrbloch.bookcatalog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.mock.web.MockMultipartFile;
@@ -19,12 +18,10 @@ import java.io.IOException;
 public class DataLoader implements CommandLineRunner {
 
     private final BookService bookService;
-    private final UserService userService;
 
     @Autowired
-    public DataLoader(BookService bookService, UserService userService) {
+    public DataLoader(BookService bookService) {
         this.bookService = bookService;
-        this.userService = userService;
     }
 
     @Override
