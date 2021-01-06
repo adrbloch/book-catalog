@@ -45,7 +45,7 @@ Application presentation: https://youtu.be/1SKyccI9UPs
 * H2 Database - v1.4.200
 * Thymeleaf
 * Maven - v3.6.3
-* Junit - v5.6.2
+* JUnit - v5.6.2
 * Mockito - v3.3.3
 * HTML
 * CSS
