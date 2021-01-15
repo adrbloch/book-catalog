@@ -1,6 +1,6 @@
 package io.github.adrbloch.bookcatalog.controller;
 
-import io.github.adrbloch.bookcatalog.domain.Book;
+import io.github.adrbloch.bookcatalog.model.Book;
 import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,7 +100,7 @@ public class BookController {
         return "redirect:/books/catalog";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
         bookService.deleteBookById(id);
 

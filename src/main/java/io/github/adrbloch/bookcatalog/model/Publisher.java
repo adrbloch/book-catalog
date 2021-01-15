@@ -1,4 +1,4 @@
-package io.github.adrbloch.bookcatalog.domain;
+package io.github.adrbloch.bookcatalog.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

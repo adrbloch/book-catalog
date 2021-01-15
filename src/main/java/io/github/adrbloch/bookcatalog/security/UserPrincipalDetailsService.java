@@ -1,6 +1,6 @@
 package io.github.adrbloch.bookcatalog.security;
 
-import io.github.adrbloch.bookcatalog.domain.User;
+import io.github.adrbloch.bookcatalog.model.User;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.UserRepository;
 import io.github.adrbloch.bookcatalog.service.UserService;

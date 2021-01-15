@@ -1,8 +1,8 @@
 package io.github.adrbloch.bookcatalog.service;
 
-import io.github.adrbloch.bookcatalog.domain.Author;
-import io.github.adrbloch.bookcatalog.domain.Book;
-import io.github.adrbloch.bookcatalog.domain.Publisher;
+import io.github.adrbloch.bookcatalog.model.Author;
+import io.github.adrbloch.bookcatalog.model.Book;
+import io.github.adrbloch.bookcatalog.model.Publisher;
 import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.exception.ResourceNotFoundException;
 import io.github.adrbloch.bookcatalog.repository.BookRepository;

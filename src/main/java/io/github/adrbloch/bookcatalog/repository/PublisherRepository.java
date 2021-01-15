@@ -1,6 +1,6 @@
 package io.github.adrbloch.bookcatalog.repository;
 
-import io.github.adrbloch.bookcatalog.domain.Publisher;
+import io.github.adrbloch.bookcatalog.model.Publisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -59,7 +59,8 @@
                     <i style="color:whitesmoke;" class="fas fa-pencil-alt "></i>
                 </a>
 
-                <a th:href="@{/books/delete/{id}(id=${book.id})}" class="btn btn-md-lg btn-danger" title="Delete">
+                <a class="btn btn-md-lg btn-danger" title="Delete"
+                   th:with="url = @{/books/delete/{id}(id=${book.id})}" th:onclick="sendDelete([[${url}]])">
                     <i class="far fa-trash-alt"></i>
                 </a>
             </td>
@@ -72,5 +73,8 @@
         </a>
     </div>
 </div>
+
+<script type="text/javascript" th:src="@{/js/forceDeleteReqScript.js}"></script>
+
 </body>
 </html>

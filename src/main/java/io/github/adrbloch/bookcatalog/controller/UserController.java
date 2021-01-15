@@ -1,6 +1,6 @@
 package io.github.adrbloch.bookcatalog.controller;
 
-import io.github.adrbloch.bookcatalog.domain.User;
+import io.github.adrbloch.bookcatalog.model.User;
 import io.github.adrbloch.bookcatalog.exception.FieldsNotMatchException;
 import io.github.adrbloch.bookcatalog.exception.ResourceAlreadyExistsException;
 import io.github.adrbloch.bookcatalog.service.UserService;

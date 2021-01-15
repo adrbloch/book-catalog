@@ -1,4 +1,4 @@
-package io.github.adrbloch.bookcatalog.domain;
+package io.github.adrbloch.bookcatalog.model;
 
 import javax.persistence.*;
 import javax.validation.Valid;

@@ -1,8 +1,8 @@
 package io.github.adrbloch.bookcatalog;
 
-import io.github.adrbloch.bookcatalog.domain.Author;
-import io.github.adrbloch.bookcatalog.domain.Book;
-import io.github.adrbloch.bookcatalog.domain.Publisher;
+import io.github.adrbloch.bookcatalog.model.Author;
+import io.github.adrbloch.bookcatalog.model.Book;
+import io.github.adrbloch.bookcatalog.model.Publisher;
 import io.github.adrbloch.bookcatalog.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
