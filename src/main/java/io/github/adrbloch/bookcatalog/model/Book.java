@@ -27,7 +27,7 @@ public class Book {
 
     @Min(value = 1800, message = "Publication year must be >1900")
     @Max(value = 2021 , message = "Publication year must be <=2021")
-    private long publicationYear;
+    private Integer publicationYear;
 
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
@@ -36,7 +36,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(Author author, String title, Publisher publisher, long publicationYear) {
+    public Book(Author author, String title, Publisher publisher, Integer publicationYear) {
         this.author = author;
         this.title = title;
         this.publisher = publisher;
@@ -75,11 +75,11 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public long getPublicationYear() {
+    public Integer getPublicationYear() {
         return publicationYear;
     }
 
-    public void setPublicationYear(long publicationYear) {
+    public void setPublicationYear(Integer publicationYear) {
         this.publicationYear = publicationYear;
     }
 

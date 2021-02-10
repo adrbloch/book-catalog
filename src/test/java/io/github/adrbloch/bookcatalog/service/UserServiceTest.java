@@ -29,7 +29,7 @@ class UserServiceTest {
 
     private User initializeUser() {
 
-        User user = new User("user", "password", "password");
+        var user = new User("user", "password", "password");
         user.setId(1L);
         return user;
     }
@@ -38,7 +38,7 @@ class UserServiceTest {
     void createAlreadyExistingUserThrowsException() {
 
         //given
-        User user = new User();
+        var user = new User();
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
         //when
@@ -113,7 +113,7 @@ class UserServiceTest {
     void ifUserNotExistsByIdThrowException() {
 
         //given
-        User user = new User();
+        var user = new User();
         Long id = user.getId();
         given(userRepository.findById(id)).willReturn(Optional.empty());
 
@@ -144,7 +144,7 @@ class UserServiceTest {
     void ifUserNotExistsByUsernameThrowException() {
 
         //given
-        User user = new User();
+        var user = new User();
         String username = user.getUsername();
         given(userRepository.findByUsername(username)).willReturn(Optional.empty());
 

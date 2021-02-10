@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 public class BookService {
 
-    public static final Logger logger = LoggerFactory.getLogger(BookService.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookService.class);
 
     private final BookRepository bookRepository;
     private final AuthorService authorService;
@@ -56,7 +56,7 @@ public class BookService {
     public Book createBook(Book book, MultipartFile file) {
         logger.info("Create book...");
 
-        Book newBook = new Book();
+        var newBook = new Book();
         Author author = book.getAuthor();
         String authorName = author.getName();
 
@@ -143,7 +143,7 @@ public class BookService {
             bookToSave.setAuthor(authorByName);
 
         } catch (ResourceNotFoundException e) {
-            Author newAuthor = new Author(authorName);
+            var newAuthor = new Author(authorName);
             bookToSave.setAuthor(newAuthor);
             authorService.createAuthor(newAuthor);
         }
@@ -160,7 +160,7 @@ public class BookService {
             bookToSave.setPublisher(publisherByNameAndCity);
 
         } catch (ResourceNotFoundException e) {
-            Publisher newPublisher = new Publisher(publisherName, publisherCity);
+            var newPublisher = new Publisher(publisherName, publisherCity);
             bookToSave.setPublisher(newPublisher);
             publisherService.createPublisher(newPublisher);
         }

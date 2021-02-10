@@ -15,37 +15,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 
 @Controller
-public class UserController {
+class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/home")
-    public String homePage() {
+    String homePage() {
         return "home";
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    String loginPage() {
         return "login";
     }
 
 
     @GetMapping("/registration")
-    public String addUserForm(Model model) {
+    String addUserForm(Model model) {
 
-        User newUser = new User();
+        var newUser = new User();
         model.addAttribute("user", newUser);
 
         return "registration";
     }
 
     @PostMapping("/save")
-    public String saveUser(@ModelAttribute("user") @Valid User userToSave,
+    String saveUser(@ModelAttribute("user") @Valid User userToSave,
                            BindingResult bindingResult,
                            Model model) {
 

@@ -36,7 +36,7 @@ class PublisherServiceTest {
     void createAlreadyExistingPublisherThrowsException() {
 
         //given
-        Publisher publisher = new Publisher();
+        var publisher = new Publisher();
         given(publisherRepository.findByNameAndCity(publisher.getName(), publisher.getCity())).willReturn(Optional.of(publisher));
 
         //when
@@ -100,7 +100,7 @@ class PublisherServiceTest {
     void ifPublisherNotExistsByIdThrowException() {
 
         //given
-        Publisher publisher = new Publisher();
+        var publisher = new Publisher();
         Long id = publisher.getId();
         given(publisherRepository.findById(id)).willReturn(Optional.empty());
 

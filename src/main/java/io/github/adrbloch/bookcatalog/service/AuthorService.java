@@ -14,12 +14,11 @@ import java.util.List;
 @Service
 public class AuthorService {
 
-    public static final Logger logger = LoggerFactory.getLogger(AuthorService.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(AuthorService.class);
     private final AuthorRepository authorRepository;
 
     @Autowired
-    public AuthorService( AuthorRepository authorRepository) {
+    public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 

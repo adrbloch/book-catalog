@@ -45,11 +45,11 @@ class BookServiceTest {
     @BeforeEach
     void initializeBook() throws IOException {
 
-        File bookImgFile = new File("src/test/resources/static/img/bookCover/witcher.jpg");
+        var bookImgFile = new File("src/test/resources/static/img/bookCover/witcher.jpg");
         bookImgMultipartFile = new MockMultipartFile("witcher.jpg", new FileInputStream(bookImgFile));
 
-        Author author = new Author("Andrzej Sapkowski");
-        Publisher publisher = new Publisher("SuperNowa", "Warsaw");
+        var author = new Author("Andrzej Sapkowski");
+        var publisher = new Publisher("SuperNowa", "Warsaw");
         book = new Book(author, "The Witcher", publisher, 1990);
         book.setId(1L);
 
@@ -103,9 +103,9 @@ class BookServiceTest {
         Author author = book.getAuthor();
         String title = book.getTitle();
         Publisher publisher = book.getPublisher();
-        long publicationYear = book.getPublicationYear();
+        int publicationYear = book.getPublicationYear();
 
-        Book newBook = new Book(author, title, publisher, publicationYear);
+        var newBook = new Book(author, title, publisher, publicationYear);
         newBook.setId(2L);
 
         String authorName = newBook.getAuthor().getName();
@@ -389,8 +389,8 @@ class BookServiceTest {
 
         //given
         final MultipartFile mockFile = mock(MultipartFile.class);
-        Author author = new Author("Andrzej Sapkowski");
-        Publisher publisher = new Publisher("SuperNowa", "Warsaw");
+        var author = new Author("Andrzej Sapkowski");
+        var publisher = new Publisher("SuperNowa", "Warsaw");
         Book book = new Book(author, "The Witcher", publisher, 1990);
         book.setId(1L);
 
@@ -420,9 +420,9 @@ class BookServiceTest {
     void updateBookWithNotImageChangeReturnsBookWithSameImage() throws IOException {
 
         //given
-        Author author = new Author("Dmitrij Gluchowski");
-        Publisher publisher = new Publisher("Insignis Media", "Cracow");
-        Book newBook = new Book(author, "Metro 2033", publisher, 2010);
+        var author = new Author("Dmitrij Gluchowski");
+        var publisher = new Publisher("Insignis Media", "Cracow");
+        var newBook = new Book(author, "Metro 2033", publisher, 2010);
         newBook.setId(1L);
         newBook.setImage(Base64.getEncoder()
                 .encodeToString(bookImgMultipartFile.getBytes()));
@@ -454,8 +454,8 @@ class BookServiceTest {
     void updateToBookWithDifferentImageReturnsBookWithChangedImage() throws IOException {
 
         //given
-        File newBookImgFile = new File("src/test/resources/static/img/bookCover/metro.jpg");
-        MockMultipartFile newBookImgMultipartFile = new MockMultipartFile("metro.jpg", new FileInputStream(newBookImgFile));
+        var newBookImgFile = new File("src/test/resources/static/img/bookCover/metro.jpg");
+        var newBookImgMultipartFile = new MockMultipartFile("metro.jpg", new FileInputStream(newBookImgFile));
         Author author = book.getAuthor();
         Publisher publisher = book.getPublisher();
         String oldImage = book.getImage();

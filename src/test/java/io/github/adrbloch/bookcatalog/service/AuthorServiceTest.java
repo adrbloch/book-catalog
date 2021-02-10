@@ -27,7 +27,7 @@ class AuthorServiceTest {
 
     private Author initializeAuthor() {
 
-        Author author = new Author("George Orwell");
+        var author = new Author("George Orwell");
         author.setId(1L);
         return author;
     }
@@ -37,7 +37,7 @@ class AuthorServiceTest {
     void createAlreadyExistingAuthorThrowsException() {
 
         //given
-        Author author = new Author();
+        var author = new Author();
         given(authorRepository.findByName(author.getName())).willReturn(Optional.of(author));
 
         //when
@@ -125,7 +125,7 @@ class AuthorServiceTest {
     void ifAuthorNotExistsByNameThrowException() {
 
         //given
-        Author author = new Author();
+        var author = new Author();
         String authorName = author.getName();
         given(authorRepository.findByName(authorName)).willReturn(Optional.empty());
 

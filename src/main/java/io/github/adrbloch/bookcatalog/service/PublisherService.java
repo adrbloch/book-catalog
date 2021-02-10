@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class PublisherService {
 
-    public static final Logger logger = LoggerFactory.getLogger(PublisherService.class);
+    private static final Logger logger = LoggerFactory.getLogger(PublisherService.class);
 
     private final PublisherRepository publisherRepository;
 

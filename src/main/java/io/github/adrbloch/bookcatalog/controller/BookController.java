@@ -14,41 +14,41 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/books")
-public class BookController {
+class BookController {
 
-    BookService bookService;
+    private final BookService bookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    BookController(BookService bookService) {
         this.bookService = bookService;
 
     }
 
     @GetMapping("/catalog")
-    public String viewAll(Model model) {
+    String viewAll(Model model) {
         model.addAttribute("books", bookService.getAllBooks());
 
         return "catalog";
     }
 
     @GetMapping("/{id}")
-    public String viewBook(@PathVariable("id") Long id, Model model) {
+    String viewBook(@PathVariable("id") Long id, Model model) {
         model.addAttribute("book", bookService.getBookById(id));
 
         return "book";
     }
 
     @GetMapping("/add")
-    public String addBookForm(Model model) {
+    String addBookForm(Model model) {
 
-        Book newBook = new Book();
+        var newBook = new Book();
         model.addAttribute("book", newBook);
 
         return "add";
     }
 
     @GetMapping("/edit/{id}")
-    public String editBookForm(@PathVariable("id") Long id, Model model) {
+    String editBookForm(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute("book", bookService.getBookById(id));
         model.addAttribute("image", bookService.getBookById(id).getImage());
@@ -57,10 +57,10 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public String saveBook(@RequestParam("file") MultipartFile file,
-                           @ModelAttribute("book") @Valid Book bookToSave,
-                           BindingResult bindingResult,
-                           Model model) {
+    String saveBook(@RequestParam("file") MultipartFile file,
+                    @ModelAttribute("book") @Valid Book bookToSave,
+                    BindingResult bindingResult,
+                    Model model) {
 
         if (bindingResult.hasErrors())
             return "add";
@@ -77,11 +77,11 @@ public class BookController {
     }
 
     @PostMapping("/save/{id}")
-    public String updateBook(@RequestParam("file") MultipartFile file,
-                             @PathVariable("id") Long id,
-                             @ModelAttribute("book") @Valid Book bookToUpdate,
-                             BindingResult bindingResult,
-                             Model model) {
+    String updateBook(@RequestParam("file") MultipartFile file,
+                      @PathVariable("id") Long id,
+                      @ModelAttribute("book") @Valid Book bookToUpdate,
+                      BindingResult bindingResult,
+                      Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("image", bookService.getBookById(id).getImage());
@@ -101,7 +101,7 @@ public class BookController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteBook(@PathVariable("id") Long id) {
+    String deleteBook(@PathVariable("id") Long id) {
         bookService.deleteBookById(id);
 
         return "redirect:/books/catalog";
