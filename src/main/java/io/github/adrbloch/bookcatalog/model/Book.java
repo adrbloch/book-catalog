@@ -1,8 +1,11 @@
 package io.github.adrbloch.bookcatalog.model;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "book")
@@ -14,7 +17,6 @@ public class Book {
 
     @Valid
     @ManyToOne
-    @JoinColumn(name = "author_id")
     private Author author;
 
     @NotBlank(message = "Book title must not be empty")
@@ -22,11 +24,10 @@ public class Book {
 
     @Valid
     @ManyToOne
-    @JoinColumn(name = "publisher_id")
     private Publisher publisher;
 
-    @Min(value = 1800, message = "Publication year must be >1900")
-    @Max(value = 2021 , message = "Publication year must be <=2021")
+    @Range(min = 1000, max = 2100, message ="Invalid publication year")
+    @NotNull(message = "Invalid publication year")
     private Integer publicationYear;
 
     @Lob

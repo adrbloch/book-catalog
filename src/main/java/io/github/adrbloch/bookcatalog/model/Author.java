@@ -18,7 +18,7 @@ public class Author {
     @NotBlank(message = "Author name must not be empty")
     private String name;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author")
     @JsonIgnore
     private Set<Book> bookSet;
 

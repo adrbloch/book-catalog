@@ -20,7 +20,7 @@ public class Publisher {
     @NotBlank(message = "Publisher city must not be empty")
     private String city;
 
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "publisher")
     @JsonIgnore
     private Set<Book> bookSet;
 
